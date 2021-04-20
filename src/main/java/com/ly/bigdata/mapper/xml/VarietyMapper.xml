@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.VarietyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.Variety">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_id" property="categoryId"/>
+    </resultMap>
+
+    <select id="getVarieties" resultType="com.ly.bigdata.po.Variety">
+        SELECT v.id,v.`name` ,c.`name` cname
+        FROM variety v,category c
+        WHERE v.category_id=c.id
+        AND (c.`name` like #{content} or v.`name` like #{content})
+
+    </select>
+
+
+</mapper>

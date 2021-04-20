@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.AdoptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.Adopt">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="pet_id" property="petId"/>
+        <result column="message" property="message"/>
+        <result column="wechat" property="wechat"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="verify_status_id" property="verifyStatusId"/>
+        <result column="createtime" property="createtime"/>
+    </resultMap>
+    <select id="getAdopts" resultType="com.ly.bigdata.po.Adopt">
+        SELECT a.*,u.phone uphone,u.address uaddress,vs.type vtype,u.realname uname,p.petname pname
+
+FROM adopt a,`user` u, pet p,verify_status vs
+
+WHERE a.pet_id=p.id
+AND a.user_id=u.id
+AND a.verify_status_id=vs.id
+AND (u.realname like #{content} or p.petname like #{content} or u.address like #{content}
+    or u.phone like #{content} or vs.type like #{content} or message like #{content}
+    or wechat like #{content} or a.createtime like #{content} or a.verify_status_id=#{content})
+
+    </select>
+
+</mapper>

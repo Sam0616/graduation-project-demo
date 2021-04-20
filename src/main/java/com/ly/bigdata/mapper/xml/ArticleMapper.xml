@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.Article">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="createtime" property="createtime"/>
+        <result column="source" property="source"/>
+        <result column="article_type" property="articleType"/>
+        <result column="admin_id" property="adminId"/>
+    </resultMap>
+    <select id="getArticles" resultType="com.ly.bigdata.po.Article">
+    SELECT ar.*,ad.realname adname,ad.imgpath imgpath,ad.phone adphone,ad.email ademail
+    FROM article ar , admin ad
+    WHERE ar.admin_id=ad.id
+    AND (ad.realname like #{content} or ad.imgpath like #{content} or ad.phone like #{content}
+    or ad.email like #{content} or ar.article_type like #{content} or ar.source like #{content}
+    or ar.title like #{content} or ar.content like #{content}  or ar.createtime like #{content})
+    </select>
+</mapper>

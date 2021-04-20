@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.CommentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.Comment">
+        <id column="id" property="id"/>
+        <result column="pet_id" property="petId"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="createtime" property="createtime"/>
+    </resultMap>
+    <select id="getComments" resultType="com.ly.bigdata.po.Comment">
+SELECT c.*,u.realname uname,p.petname pname from `comment` c,`user` u,pet p
+WHERE c.user_id=u.id
+AND c.pet_id=p.id
+and (u.realname like #{content} or p.petname like #{content} or c.content like #{content} or c.createtime like #{content})
+</select>
+
+</mapper>

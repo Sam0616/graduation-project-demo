@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.PetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.Pet">
+        <id column="id" property="id"/>
+        <result column="petname" property="petname"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="variety_id" property="varietyId"/>
+        <result column="imgpath" property="imgpath"/>
+        <result column="age" property="age"/>
+        <result column="source" property="source"/>
+        <result column="sex" property="sex"/>
+        <result column="status" property="status"/>
+        <result column="description" property="description"/>
+        <result column="area" property="area"/>
+        <result column="vaccine" property="vaccine"/>
+        <result column="createtime" property="createtime"/>
+    </resultMap>
+    <select id="getPets" resultType="com.ly.bigdata.po.Pet">
+SELECT
+	p.*, c.`name` cname,
+	v.`name` vname
+FROM
+	pet p,
+	variety v,
+	category c
+WHERE
+	p.category_id = c.id
+AND p.variety_id = v.id
+AND (p.`petname` like #{content} or p.`age` like #{content} or p.description like #{content}
+    or p.area like #{content} or p.createtime like #{content} or v.`name` like #{content} or c.`name` like #{content})
+    </select>
+
+</mapper>

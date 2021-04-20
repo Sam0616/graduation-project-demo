@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.MessageBoardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.MessageBoard">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="createtime" property="createtime"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+    </resultMap>
+    <select id="getMessageBoards" resultType="com.ly.bigdata.po.MessageBoard">
+        SELECT m.*,u.realname uname,u.email uemail,u.phone uphone FROM message_board m,`user` u
+        WHERE m.user_id=u.id
+        AND (u.realname like #{content} or m.createtime like #{content} or m.title like #{content}
+        or m.content like #{content} or u.email like #{content} or u.phone like #{content})
+    </select>
+
+</mapper>
