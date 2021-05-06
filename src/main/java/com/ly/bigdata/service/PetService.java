@@ -17,4 +17,7 @@ import java.util.List;
  */
 public interface PetService extends IService<Pet> {
     List<Pet> getPets(Page<Pet> page, @Param("content")String content);
+    List<Pet> getPetsFront(Page<Pet> page, @Param("content")String content);//前台策略是不显示已经被领养
+    List<Pet> getPetspersonal(Page<Pet> page, @Param("content")String content);//个人申请的宠物列表
+
 }

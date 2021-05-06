@@ -50,7 +50,7 @@ public class loginController {
             wrapper.eq("loginname", loginname).eq("password", pwd);
             User user = userService.getOne(wrapper);
             if (user != null) {
-
+                //把当前用户放入session
                 session.setAttribute("user_session", user);
                 //将来在这录入登录浏览器的信息
 
@@ -133,7 +133,7 @@ public class loginController {
                     Map<String, Object> map = new HashMap<>();
                     map.put("data", "true");
                     map.put("code", 0);
-                    map.put("msg", "用户");
+                    map.put("msg", user.getLoginname());
                     return map;
                 } else {
                     Map<String, Object> map = new HashMap<>();
@@ -168,7 +168,7 @@ public class loginController {
                     Map<String, Object> map = new HashMap<>();
                     map.put("data", "true");
                     map.put("code", 0);
-                    map.put("msg", "管理员");
+                    map.put("msg", admin.getLoginname());
                     return map;
                 } else {
                     Map<String, Object> map = new HashMap<>();
@@ -273,6 +273,50 @@ public class loginController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping("/isRegistered2")
+    public Object getCode3(String phone,String identity) {
+
+        System.err.println("身份============"+identity);
+        if("用户".equals(identity)){
+            System.err.println(phone + "判断该用户手机号是否注册");
+            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            wrapper.eq("phone", phone);
+            User user = userService.getOne(wrapper);
+            if (user == null) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("data", "true");
+                map.put("code", 0);
+                map.put("msg", "用户！");
+                return map;
+            } else {
+                Map<String, Object> map = new HashMap<>();
+                map.put("data", "false");
+                map.put("code", 0);
+                map.put("msg", "用户！");
+                return map;
+            }
+        }else {
+            System.err.println(phone + "判断该管理员手机号是否注册");
+            QueryWrapper<Admin> wrapper = new QueryWrapper<>();
+            wrapper.eq("phone", phone);
+            Admin admin = adminService.getOne(wrapper);
+            if (admin==null){
+                Map<String, Object> map = new HashMap<>();
+                map.put("data", "true");
+                map.put("code", 0);
+                map.put("msg", "管理员！");
+                return map;
+            }else {
+                Map<String, Object> map = new HashMap<>();
+                map.put("data", "false");
+                map.put("code", 0);
+                map.put("msg", "管理员！");
+                return map;
+            }
+        }
+
+    }
 
     //注册
     @ResponseBody

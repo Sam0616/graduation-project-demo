@@ -47,5 +47,7 @@ public class Comment implements Serializable {
     private String pname;
     @TableField(exist = false)
     private String uname;
+    @TableField(exist = false)
+    private String uimgpath;
 
 }

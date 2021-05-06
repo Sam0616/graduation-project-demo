@@ -28,9 +28,9 @@
             <i class="layui-icon layui-icon-close caller-dump-icon caller-icon" id="clean"></i>
         </form>
         <div class="layui-tab layui-tab-brief caller-tab" lay-filter="docDemoTabBrief">
-            <ul class="layui-tab-title">
-                <li class="layui-this">文章列表</li>
-            </ul>
+      <%--      <ul class="layui-tab-title">
+&lt;%&ndash;                <li class="layui-this">文章列表</li>&ndash;%&gt;
+            </ul>--%>
         </div>
 
         <div class="caller-contar">
@@ -50,7 +50,7 @@
                                 <%--                            <input type="hidden" id="input_hidden" value="${item.id}">--%>
                             <button style="margin-right: 20px;margin-top: 50px" lay-event="edit" id="btn"
                                     onclick="edit(${item.id})"
-                                    class="layui-btn layui-btn-sm layui-btn layui-btn-primary caller-fr">
+                                    class="layui-btn layui-btn-sm caller-fr">
                                 查看 / 编辑
                             </button>
                         </p>

@@ -33,4 +33,43 @@ AND (p.`petname` like #{content} or p.`age` like #{content} or p.description lik
     or p.area like #{content} or p.createtime like #{content} or v.`name` like #{content} or c.`name` like #{content})
     </select>
 
+    <select id="getPetsFront" resultType="com.ly.bigdata.po.Pet">
+        SELECT
+	p.*, c.`name` cname,
+	v.`name` vname
+FROM
+	pet p,
+	variety v,
+	category c
+WHERE
+	p.category_id = c.id
+AND p.variety_id = v.id
+AND p.status !=2
+AND (p.`petname` like #{content} or p.`age` like #{content} or p.description like #{content}
+    or p.area like #{content} or p.createtime like #{content} or v.`name` like #{content} or c.`name` like #{content})
+    </select>
+
+    <select id="getPetspersonal" resultType="com.ly.bigdata.po.Pet">
+SELECT
+	p.*, c.`name` cname,
+	v.`name` vname,
+	a.createtime atime,a.message amsg,
+	vs.type vtype
+
+FROM
+	pet p,
+	variety v,
+	category c,
+	adopt a,
+	verify_status vs
+WHERE
+	p.category_id = c.id
+AND p.variety_id = v.id
+AND p.id=a.pet_id
+AND vs.id=a.verify_status_id
+AND (p.`petname` like #{content} or p.`age` like #{content} or p.description like #{content}
+    or p.area like #{content} or p.createtime like #{content} or v.`name` like #{content} or c.`name` like #{content}
+    or vs.type like #{content}or a.createtime like #{content}or a.message like #{content})
+    </select>
+
 </mapper>

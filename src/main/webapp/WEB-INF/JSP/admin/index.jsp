@@ -50,7 +50,6 @@
                         <i class="layui-icon layui-icon-refresh-3"></i>
                     </a>
                 </li>
-
                 <%--                <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search"
                                        layadmin-event="serach" lay-action="template/search.html?keywords=">--%>
 
@@ -94,29 +93,6 @@
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;"><img src="/img/headImg.gif" style="width: 35px;height: 35px"
                                                 class="layui-nav-img">我</a>
-
-
-                    <%--         <div class="layui-card-body">
-                                 <ul class="layui-nav" lay-filter="component-nav">
-                                     <li class="layui-nav-item">
-                                         <a href="javascript:;">控制台<span class="layui-badge">9</span></a>
-                                     </li>
-                                     <li class="layui-nav-item">
-                                         <a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a>
-                                     </li>
-                                     <li class="layui-nav-item" lay-unselect="">
-                                         <a href="javascript:;"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">我</a>
-                                         <dl class="layui-nav-child">
-                                             <dd><a href="javascript:;">修改信息</a></dd>
-                                             <dd><a href="javascript:;">安全管理</a></dd>
-                                             <dd><a href="javascript:;">退了</a></dd>
-                                         </dl>
-                                     </li>
-                                 </ul>
-                             </div>
-         --%>
-
-
                     <dl class="layui-nav-child">
                         <dd><a lay-href="set/user/info.html">基本资料</a></dd>
                         <dd><a lay-href="set/user/password.html">修改密码</a></dd>
@@ -145,11 +121,11 @@
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
                     <li data-name="home" class="layui-nav-item layui-nav-itemed">
-                        <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                        <a lay-href="/user/toList" lay-tips="主页" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>主页</cite>
                         </a>
-                        <dl class="layui-nav-child">
+                     <%--   <dl class="layui-nav-child">
                             <dd data-name="console" class="layui-this">
                                 <a lay-href="/home/console.html">控制台</a>
                             </dd>
@@ -159,7 +135,7 @@
                             <dd data-name="console">
                                 <a lay-href="/home/homepage2.html">主页二</a>
                             </dd>
-                        </dl>
+                        </dl>--%>
                     </li>
 
 
@@ -231,7 +207,6 @@
                         <dl class="layui-nav-child">
                             <dd><a lay-href="/article/toList">文章列表</a></dd>
                             <dd><a lay-href="/article/toAdd">添加文章</a></dd>
-
                         </dl>
                     </li>
                     <li data-name="app" class="layui-nav-item">
@@ -262,26 +237,13 @@
 
 
                     <li data-name="senior" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="高级" lay-direction="2">
+                        <a lay-href="/echarts" lay-tips="" lay-direction="2">
                             <i class="layui-icon layui-icon-senior"></i>
-                            <cite>高级</cite>
+                            <cite>Echarts数据报表</cite>
                         </a>
-                        <dl class="layui-nav-child">
-                            <dd>
-                                <a layadmin-event="im">LayIM 通讯系统</a>
-                            </dd>
-                            <dd data-name="echarts">
-                                <a href="javascript:;">Echarts集成</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a lay-href="senior/echarts/line.html">折线图</a></dd>
-                                    <dd><a lay-href="senior/echarts/bar.html">柱状图</a></dd>
-                                    <dd><a lay-href="senior/echarts/map.html">地图</a></dd>
-                                </dl>
-                            </dd>
-                        </dl>
                     </li>
 
-                    <li data-name="set" class="layui-nav-item">
+  <%--                  <li data-name="set" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="设置" lay-direction="2">
                             <i class="layui-icon layui-icon-set"></i>
                             <cite>设置</cite>
@@ -302,13 +264,13 @@
                                 </dl>
                             </dd>
                         </dl>
-                    </li>
-                    <li data-name="get" class="layui-nav-item">
+                    </li>--%>
+                  <%--  <li data-name="get" class="layui-nav-item">
                         <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
                             <i class="layui-icon layui-icon-auz"></i>
                             <cite>授权</cite>
                         </a>
-                    </li>
+                    </li>--%>
                 </ul>
             </div>
         </div>
@@ -345,7 +307,7 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe src="home/console.html" frameborder="0" class="layadmin-iframe"></iframe>
+                <iframe src="user/toList" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 

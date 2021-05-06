@@ -99,6 +99,12 @@ public class Pet implements Serializable {
     public String vname;
     @TableField(exist = false)
     public String cname;
+    @TableField(exist = false)
+    public String atime;
+    @TableField(exist = false)
+    public String amsg;
+    @TableField(exist = false)
+    public String vtype;
 
 
 }

@@ -30,7 +30,6 @@ public class ArticleController {
 
 
     @RequestMapping("/toList")
-
     public String tolist(Model model,
                          @RequestParam(value = "pageNo", defaultValue = "1")
                                  Integer pageNum,

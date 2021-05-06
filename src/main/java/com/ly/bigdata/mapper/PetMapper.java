@@ -19,4 +19,7 @@ import java.util.List;
 @Component
 public interface PetMapper extends BaseMapper<Pet> {
      List<Pet> getPets(Page<Pet> page, @Param("content")String content);
+     List<Pet> getPetsFront(Page<Pet> page, @Param("content")String content);//前台策略是不显示已经被领养
+     List<Pet> getPetspersonal(Page<Pet> page, @Param("content")String content);//个人申请的宠物列表
+
 }

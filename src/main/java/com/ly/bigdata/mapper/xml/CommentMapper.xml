@@ -11,7 +11,7 @@
         <result column="createtime" property="createtime"/>
     </resultMap>
     <select id="getComments" resultType="com.ly.bigdata.po.Comment">
-SELECT c.*,u.realname uname,p.petname pname from `comment` c,`user` u,pet p
+SELECT c.*,u.realname uname,p.petname pname,u.imgpath uimgpath from `comment` c,`user` u,pet p
 WHERE c.user_id=u.id
 AND c.pet_id=p.id
 and (u.realname like #{content} or p.petname like #{content} or c.content like #{content} or c.createtime like #{content})

@@ -39,6 +39,9 @@ var flag2 = 1 //标志位1代表此刻去获取了可用的验证码，并随着
                                             }, 60000)
                                         })
                                     // }
+
+
+
                                     if ("object" == typeof e.ajax) {
                                         var s = e.ajax.success;
                                         delete e.ajax.success

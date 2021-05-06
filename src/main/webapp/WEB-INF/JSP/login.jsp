@@ -183,8 +183,8 @@
                            style="margin-top: 7px"><span style="color: #1E9FFF">忘记密码？</span></a>
                     </div>
                     <div class="layui-col-md12" style="margin-top: -10px;margin-bottom: 10px;margin-left: 1px">
-                        <input type="radio" name="identity" value="用户" title="用户">
-                        <input type="radio" name="identity" value="管理员" title="管理员" checked>
+                        <input type="radio" name="identity" value="用户" title="用户"checked>
+                        <input type="radio" name="identity" value="管理员" title="管理员">
                     </div>
                     <div class="layui-form-item">
                         <button style="background-color: #1E9FFF" class="layui-btn layui-btn-fluid" lay-submit

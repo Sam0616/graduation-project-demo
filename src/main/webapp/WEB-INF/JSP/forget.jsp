@@ -43,9 +43,9 @@
                     </button>
                 </div>
                 {{# } else { }}
-                <div class="layui-col-md12" style="margin-top: -10px;margin-bottom: 10px;margin-left: 90px">
-                    <input type="radio" name="identity" value="用户" title="用户">
-                    <input type="radio" name="identity" value="管理员" title="管理员" checked>
+                <div class="layui-col-md12" id="role" style="margin-top: -10px;margin-bottom: 10px;margin-left: 90px">
+                    <input type="radio" name="identity" value="用户" title="用户" checked>
+                    <input type="radio" name="identity" value="管理员" title="管理员">
                 </div>
                 <div class="layui-form-item">
                     <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone"
@@ -73,7 +73,7 @@
                             <div style="margin-left: 10px;">
                                 <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid"
                                         onclick="getCode()"
-                                        id="LAY-user-getsmscode">获取验证码
+                                        id="getcode">获取验证码
                                 </button>
                             </div>
                         </div>
@@ -128,13 +128,12 @@
         form.render();
 
 
-
         //找回密码下一步
         form.on('submit(LAY-user-forget-submit)', function (obj) {
             //判断验证码是否过期
-            if(flag==0){//验证码已经过期
+            if (flag == 0) {//验证码已经过期
                 layer.msg("验证码已经过期，请重新获取！", {time: 2000, shift: 6, icon: 5})
-            }else {
+            } else {
                 var field = obj.field;
                 //请求接口
                 admin.req({
@@ -142,12 +141,14 @@
                     , data: field
                     , done: function (res) {
                         if (res.data == "true") {
-                            location.hash = '/type=resetpass';
-                            location.reload();
-                        } else if(res.data == "false2"){
+                            layer.msg("身份验证成功！您的登录名是：   "+res.msg)
+                            setTimeout(function () {
+                                location.hash = '/type=resetpass';
+                                location.reload();
+                            },2200)
+                        } else if (res.data == "false2") {
                             layer.msg("该手机号不存在对应的用户！", {time: 2000, shift: 6, icon: 5})
-                        }
-                         else if(res.data == "false3"){
+                        } else if (res.data == "false3") {
                             layer.msg("该手机号不存在对应的管理员！", {time: 2000, shift: 6, icon: 5})
                         } else {
                             layer.msg("验证码错误！", {time: 2000, shift: 6, icon: 5})
@@ -184,16 +185,58 @@
     });
 
 
-
     var flag = 1 //标志位1代表此刻去获取了可用的验证码，并随着下面的倒计时结束，置成0，表示此验证码已经过期
+    var timer = "";
+    var nums = 60;
+    var validCode = true;//定义该变量是为了处理后面的重复点击事件
     function getCode() {
         flag = 1 //把过期置成0的flag置成1
         var phone = $('#LAY-user-login-cellphone').val()
-        $.post('/getCode', {phone: phone}, function () {
-            setTimeout(function () {
-                flag = 0
-            }, 60000)
-        })
+        var elemPhone = $('#LAY-user-login-cellphone')
+        //检测手机号格式是否正确
+
+        if (!/^1\d{10}$/.test(phone)) {
+            layer.msg("请输入正确的手机号");
+            return elemPhone.focus();
+        } else {
+            var optopn_radio = $('input:radio:checked').val();
+
+            $.post('/isRegistered2', {phone: phone,identity:optopn_radio}, function (res) {
+                if (res.data == "false") {//手机号存在，可以修改密码
+                    layer.msg("验证码已发送至你的手机，请注意查收")
+
+                    $.post('/getCode', {phone: phone}, function () {
+                        setTimeout(function () {
+                            flag = 0
+                        }, 60000)
+                    })
+
+
+                    var code = $("#getcode");
+                    if (validCode) {
+                        validCode = false;
+                        timer = setInterval(function () {
+                            if (nums > 0) {
+                                nums--;
+                                code.text(nums + "秒后重新发送");
+                                code.addClass("layui-disabled");
+
+                            } else {
+                                clearInterval(timer);
+                                nums = 60;//重置回去
+                                validCode = true;
+                                code.removeClass("layui-disabled");
+                                code.text("获取验证码");
+                            }
+                        }, 1000)
+                    }
+                }else {
+                    layer.msg("该手机号无对应的"+res.msg, {time: 2000, shift: 6, icon: 5})
+                }
+            })
+
+
+        }
     }
 
 </script>

@@ -38,4 +38,24 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, Pet> implements PetSe
 
 
     }
+
+    @Override
+    public List<Pet> getPetsFront(Page<Pet> page, String content) {
+        if (content == null) {
+            content = "";
+        }
+        List<Pet> list = petMapper.getPetsFront(page, "%" + content + "%");
+        page.setRecords(list);
+        return list;
+    }
+
+    @Override
+    public List<Pet> getPetspersonal(Page<Pet> page, String content) {
+        if (content == null) {
+            content = "";
+        }
+        List<Pet> list = petMapper.getPetspersonal(page, "%" + content + "%");
+        page.setRecords(list);
+        return list;
+    }
 }
