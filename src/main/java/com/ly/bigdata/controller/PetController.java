@@ -150,7 +150,6 @@ public class PetController {
         map.put("data", imgpath);
         map.put("code", 0);
         map.put("msg", "");
-
         return map;
     }
 

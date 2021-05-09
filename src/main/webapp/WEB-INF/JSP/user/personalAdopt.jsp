@@ -67,7 +67,7 @@
         <div class="am-collapse am-topbar-collapse" id="blog-collapse">
             <ul class="am-nav am-nav-pills am-topbar-nav">
                 <li class=""><a href="/front">首页</a></li>
-                <li ><a href="/user/petList">领养中心</a></li>
+                <li><a href="/user/petList">领养中心</a></li>
                 <li><a href="/user/toArticleList">文章动态</a></li>
                 <li><a href="/user/toImages">宠图锦集</a></li>
 
@@ -77,7 +77,7 @@
                     </a>
                     <ul class="am-dropdown-content">
                         <li><a href="/user/personalAdopt">查看领养申请</a></li>
-                        <li><a href="/user/toDisplayResume">送养宠物</a></li>
+                        <li><a href="/user/toSendAdopt">送养宠物</a></li>
                     </ul>
                 </li>
 
@@ -86,8 +86,8 @@
                         个人信息 <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
-                        <li><a href="/user/toDisplayStudent">完善个人信息</a></li>
-                        <li><a href="javascript:void (0);" @click="toUpdStuMessage">查看/修改个人信息</a></li>
+                        <li><a href="javascript:void (0);" @click="toEditPersonal">完善个人信息</a></li>
+                        <li><a href="javascript:void (0);" @click="toEditPersonal2">查看/修改个人信息</a></li>
                         <li><a href="javascript:void (0);" @click="toEditPassword">修改密码</a></li>
                     </ul>
                 </li>
@@ -109,7 +109,7 @@
 
     <!-- content srart -->
     <div class="am-g am-g-fixed blog-fixed">
-        <div class="am-u-md-8 am-u-sm-12">
+        <div class="am-u-md-8 am-u-sm-12" id="body1">
 
 
             <article class="am-g blog-entry-article" v-for="pet in pets">
@@ -143,9 +143,14 @@
 
 
                     <button type="button" class="button gray" @click="display_detail(pet.id)">查看详情</button>&nbsp;&nbsp;
-                    <button type="button" class="button gray" @click="submit_resume(pet.id)">修改领养申请</button>
-                    <button style="margin-left: 10px" type="button" class="button gray" @click="submit_comment(pet.id)">
+                    <button type="button" class="button gray" @click="submit_comment(pet.id)">
                         评论我叭
+                    </button>
+                    <button style="margin-left: 10px" type="button" class="button gray" @click="submit_resume(pet.id)">
+                        修改申请
+                    </button>
+                    <button style="margin-left: 10px" type="button" class="button gray" @click="delAdopt(pet.id)">
+                        取消申请
                     </button>
                 </div>
             </article>
@@ -157,6 +162,10 @@
                         href="javascript:void (0);">{{page}}/{{pages}}</a></li>
                 <li class="am-pagination-next"><a href="javascript:void (0);" @click="nextPageFun">下一页&raquo;</a></li>
             </ul>
+        </div>
+        <div id="body2"
+             style="color:#10D07A;width: 798px;height: 1070px;float: left;text-align: center;padding-top: 250px;font-size: 22px">
+            您还没有领养记录，快去领养吧~
         </div>
 
         <div id="city-middle">
@@ -309,20 +318,29 @@
             var that = this;
             axios.get("/user/qiantaiIndex2").then(function (result) {
                 // console.log(result)
+
+                //console.log(result.data.list)
+
+                if (result.data.list == '') {
+                    // alert('您还没有领养记录，快去领养吧~')
+                    $('#body1').hide()
+                    $('#body2').show()
+                } else {
+                    $('#body2').hide()
+                    $('#body1').show()
+                }
                 that.pets = result.data.list;
                 that.nextPage = result.data.nextPage;
                 that.prePage = result.data.prePage;
                 that.page = result.data.page;
                 that.pages = result.data.pages;
             })
-
-
         },
         methods: {
             nextPageFun: function () {
                 var that = this;
-                axios.post("/user/qiantaiIndex?page=" + this.nextPage + "&content=" + this.content).then(function (result) {
-                    //console.log(result)
+                axios.post("/user/qiantaiIndex2?page=" + this.nextPage + "&content=" + this.content).then(function (result) {
+
                     that.pets = result.data.list;
                     that.nextPage = result.data.nextPage;
                     that.prePage = result.data.prePage;
@@ -333,7 +351,7 @@
             },
             prePageFun: function () {
                 var that = this;
-                axios.post("/user/qiantaiIndex?content=" + this.content + "&page=" + this.prePage).then(function (result) {
+                axios.post("/user/qiantaiIndex2?content=" + this.content + "&page=" + this.prePage).then(function (result) {
                     //console.log(result)
                     that.pets = result.data.list;
                     that.nextPage = result.data.nextPage;
@@ -345,7 +363,7 @@
             },
             searchFun: function () {
                 var that = this;
-                axios.post("/user/qiantaiIndex?content=" + this.content).then(function (result) {
+                axios.post("/user/qiantaiIndex2?content=" + this.content).then(function (result) {
                     //console.log(result)
                     that.pets = result.data.list;
                     that.nextPage = result.data.nextPage;
@@ -356,7 +374,6 @@
 
             },
             submit_resume: function (id) {
-                //alert(id+" "+"submit_resume");
                 //*********弹框开始位置**********
                 layui.config({
                     base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
@@ -366,29 +383,29 @@
                     //判断生日是否存在来确定是否完善个人信息
 
                     axios.get("/user/checkComplete?petId=" + id).then(function (res) {
-                        console.log(res.data.msg)
+                        // console.log(res.data.msg)
 
                         if (res.data.msg == '0') {
                             layer.msg("请先完善个人信息！！！")
                             return;
                         } else {
                             if (res.data.experience == 1) {
-                                layer.confirm('您已经申请过该宠物，继续申请将覆盖之前的申请，确定继续？', function (index) {
-                                    layer.open({
-                                        type: 2,
-                                        title: false,
-                                        closeBtn: 0,
-                                        shadeClose: true,
-                                        // offset: [100],
-                                        skin: 'yourClass',
-                                        area: ['580px', '310px'],
-                                        end: function () {
+                                // layer.confirm('您已经申请过该宠物，继续申请将覆盖之前的申请，确定继续？', function (index) {
+                                layer.open({
+                                    type: 2,
+                                    title: false,
+                                    closeBtn: 0,
+                                    shadeClose: true,
+                                    // offset: [100],
+                                    skin: 'yourClass',
+                                    area: ['580px', '310px'],
+                                    end: function () {
 
-                                        },
-                                        content: "/user/toAdopt?id=" + id
-                                    });
-                                    layer.close(index);
+                                    },
+                                    content: "/user/toAdopt2?id=" + id
                                 });
+                                /*      layer.close(index);
+                                  });*/
                             } else {
                                 layer.open({
                                     type: 2,
@@ -412,6 +429,40 @@
 
                 //*********弹框结束位置***************
 
+            },
+
+            delAdopt: function (id) {
+                //*********弹框开始位置**********
+                layui.config({
+                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+                }).extend({
+                    index: 'lib/index' //主入口模块
+                }).use(['index', 'table'], function () {
+                    //删除个人的领养请求
+                    layer.confirm("您确定取消申请吗？", function (index) {
+                        layer.close(index)
+                        axios.get("/user/delAdopt?petId=" + id).then(function (res) {
+                            if (res.data.msg) {
+                                layer.msg('取消申请成功！', {
+                                    offset: '15px'
+                                    , icon: 1
+                                    , time: 1000
+                                }, function () {
+                                    location.href = '/user/personalAdopt'; //返回个人领养列表
+                                });
+                            } else {
+                                layer.msg('取消申请失败！', {
+                                    offset: '15px'
+                                    , icon: 2
+                                    , time: 1000
+                                }, function () {
+
+                                });
+                            }
+                        })
+                    })
+                })
+                //*********弹框结束位置***************
             },
 
             submit_comment: function (id) {
@@ -517,8 +568,57 @@
                     });
                 })
                 //*********弹框结束位置***************
+            }, toEditPersonal: function () {
+
+                //*********弹框开始位置**********
+
+                layui.config({
+                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+                }).extend({
+                    index: 'lib/index' //主入口模块
+                }).use(['index', 'table'], function () {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0,
+                        shadeClose: true,
+                        skin: 'yourClass',
+                        area: ['450px', '600px'],
+                        end: function () {
+                            /* tableIns.reload()*/
+                        },
+                        content: "/user/toEditPersonal"
+                    });
+                })
+                //*********弹框结束位置***************
+            },
+            toEditPersonal2: function () {
+
+                //*********弹框开始位置**********
+
+                layui.config({
+                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+                }).extend({
+                    index: 'lib/index' //主入口模块
+                }).use(['index', 'table'], function () {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0,
+                        shadeClose: true,
+                        skin: 'yourClass',
+                        area: ['450px', '600px'],
+                        end: function () {
+                            /* tableIns.reload()*/
+                        },
+                        content: "/user/toEditPersonal2"
+                    });
+                })
+                //*********弹框结束位置***************
             }
         },
+
+
         filters: {
             contentFormat: function (value) {
                 if (value.length > 45) {

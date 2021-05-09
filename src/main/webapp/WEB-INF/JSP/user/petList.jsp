@@ -77,7 +77,7 @@
                     </a>
                     <ul class="am-dropdown-content">
                         <li><a href="/user/personalAdopt">查看领养申请</a></li>
-                        <li><a href="/user/toDisplayResume">送养宠物</a></li>
+                        <li><a href="/user/toSendAdopt">送养宠物</a></li>
                     </ul>
                 </li>
 
@@ -86,8 +86,8 @@
                         个人信息 <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
-                        <li><a href="/user/toDisplayStudent">完善个人信息</a></li>
-                        <li><a href="javascript:void (0);" @click="toUpdStuMessage">查看/修改个人信息</a></li>
+                        <li><a href="javascript:void (0);" @click="toEditPersonal">完善个人信息</a></li>
+                        <li><a href="javascript:void (0);" @click="toEditPersonal2">查看/修改个人信息</a></li>
                         <li><a href="javascript:void (0);" @click="toEditPassword">修改密码</a></li>
                     </ul>
                 </li>
@@ -511,8 +511,62 @@
                     });
                 })
                 //*********弹框结束位置***************
+            },
+            toEditPersonal: function () {
+
+                //*********弹框开始位置**********
+
+                layui.config({
+                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+                }).extend({
+                    index: 'lib/index' //主入口模块
+                }).use(['index', 'table'], function () {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0,
+                        shadeClose: true,
+                        skin: 'yourClass',
+                        area: ['450px', '600px'],
+                        end: function () {
+                            /* tableIns.reload()*/
+                        },
+                        content: "/user/toEditPersonal"
+                    });
+                })
+                //*********弹框结束位置***************
+            },
+            toEditPersonal2: function () {
+
+                //*********弹框开始位置**********
+
+                layui.config({
+                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+                }).extend({
+                    index: 'lib/index' //主入口模块
+                }).use(['index', 'table'], function () {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0,
+                        shadeClose: true,
+                        skin: 'yourClass',
+                        area: ['450px', '600px'],
+                        end: function () {
+                            /* tableIns.reload()*/
+                        },
+                        content: "/user/toEditPersonal2"
+                    });
+                })
+                //*********弹框结束位置***************
             }
+
         },
+
+
+
+
+
         filters: {
             contentFormat: function (value) {
                 if (value.length > 45) {

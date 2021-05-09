@@ -67,6 +67,7 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping("/del")
     public String del(Integer id) {
+        System.err.println("文章删除"+id);
         boolean b = articleService.removeById(id);
         if (b == true) {
             return "true";

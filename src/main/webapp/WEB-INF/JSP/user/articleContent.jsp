@@ -15,7 +15,8 @@
 </head>
 <style>
     #LAY_demo1 {
-        width: 600px !important;
+   /*     width: 600px !important;
+        height: 800px !important;*/
     }
 </style>
 
@@ -52,7 +53,7 @@
                     <div class="layui-inline">
                         <div class="layui-input-inline" style="width:793px;height: auto">
 
-                            <textarea class="layui-textarea" id="" name="content" style="height: 368px" readonly
+                            <textarea class="layui-textarea" id="LAY_demo1" name="content" style="height: 368px" readonly
                             >${article.content}</textarea>
 
                         </div>
@@ -102,6 +103,14 @@
 
         //构建一个默认的编辑器
         var index = layedit.build('LAY_demo1');
+
+
+        /*网上粘贴的，不知道怎么用
+        var editor = new UE.ui.Editor({ initialFrameHeight:100,initialFrameWidth:400 });
+        editor.render("myEditor");
+        //1.2.4版本以后可以使用一下代码实例化编辑器
+        var editor = UE.getEditor('myEditor');*/
+
 
 
         //编辑器外部操作      没用到

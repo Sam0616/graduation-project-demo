@@ -54,7 +54,8 @@ SELECT
 	p.*, c.`name` cname,
 	v.`name` vname,
 	a.createtime atime,a.message amsg,
-	vs.type vtype
+	vs.type vtype,
+	a.user_id userId
 
 FROM
 	pet p,

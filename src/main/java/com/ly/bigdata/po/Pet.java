@@ -100,11 +100,13 @@ public class Pet implements Serializable {
     @TableField(exist = false)
     public String cname;
     @TableField(exist = false)
-    public String atime;
+    public String atime;//领养时间
     @TableField(exist = false)
     public String amsg;
     @TableField(exist = false)
     public String vtype;
+    @TableField(exist = false)
+    public Integer userId;//用户ID
 
 
 }

@@ -72,6 +72,7 @@
         <div id="demo1" style="text-align: center"></div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/qiantai_user/assets/js/jquery.min.js"></script>
 
 
 <script src="../../layuiadmin/layui/layui.js"></script>
@@ -83,8 +84,8 @@
     }).use(['index', 'laypage', 'layer', 'form', 'layedit', 'table', 'laydate', 'element', 'jquery'], function () {
         var form = layui.form,
             layer = layui.layer,
-            element = layui.element,
-            $ = layui.jquery;
+            element = layui.element
+            // $ = layui.jquery;
         var layedit = layui.layedit;
 
 
@@ -176,7 +177,8 @@
         layer.confirm('确认删除这篇文章吗？', function (index) {
             layer.close(index);
             //请求接口
-            var id = $('#input_hidden').val()
+            // var id = $('#input_hidden').val()
+            // alert(id)
             $.post('/article/del', {id: id}, function (res) {
                 if (res == "true") {
                     layer.msg("删除成功！", {icon: 1})

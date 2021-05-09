@@ -105,7 +105,7 @@
                 } else {
                     layer.msg("申请发送成功，请等待管理员审核！")
                     setTimeout(function () {
-                        parent.location.href = '/user/petList'; //前台主页
+                        parent.location.href = '/user/personalAdopt'; //前台主页
                     }, 2000)
                 }
                /* setTimeout(function () {

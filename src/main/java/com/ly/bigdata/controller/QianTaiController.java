@@ -3,10 +3,7 @@ package com.ly.bigdata.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ly.bigdata.po.*;
-import com.ly.bigdata.service.AdoptService;
-import com.ly.bigdata.service.ArticleService;
-import com.ly.bigdata.service.CommentService;
-import com.ly.bigdata.service.PetService;
+import com.ly.bigdata.service.*;
 import com.sun.mail.imap.protocol.ID;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -35,6 +29,10 @@ public class QianTaiController {
     private AdoptService adoptService;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping("/qiantaiIndex")
@@ -134,9 +132,29 @@ public class QianTaiController {
     }
 
     @RequestMapping("/toAdopt")
-    public String toAdopt(String id, Model model) {
+    public String toAdopt(String id, Model model,HttpSession session) {
         model.addAttribute("id", id);
+
+        User user = (User) session.getAttribute("user_session");
+        Integer userId = user.getId();
+        QueryWrapper<Adopt> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId).eq("pet_id", id);
+        Adopt adopt2 = adoptService.getOne(wrapper, false);
+        model.addAttribute("adopt",adopt2);
         return "user/addAdopt";
+    }
+
+    @RequestMapping("/toAdopt2")
+    public String toAdopt2(String id, Model model,HttpSession session) {
+        model.addAttribute("id", id);
+
+        User user = (User) session.getAttribute("user_session");
+        Integer userId = user.getId();
+        QueryWrapper<Adopt> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId).eq("pet_id", id);
+        Adopt adopt2 = adoptService.getOne(wrapper, false);
+        model.addAttribute("adopt",adopt2);
+        return "user/updAdopt";
     }
 
     @ResponseBody
@@ -213,6 +231,11 @@ public class QianTaiController {
         return "user/petList";
     }
 
+    @RequestMapping("/personalAdopt")
+    public String personalList() {
+        return "user/personalAdopt";
+    }
+
     @RequestMapping("/toContent")
     public String toContent(Integer id, Model model) {
         //查数据
@@ -241,32 +264,37 @@ public class QianTaiController {
         return "user/information";
     }
 
-    @RequestMapping("/personalAdopt")
-    public String personalAdopt() {
-        return "user/personalAdopt";
-    }
-
 
     //个人领养界面的index
     @RequestMapping("/qiantaiIndex2")
     @ResponseBody
-    public Object getList2(//前台显示策略：已经被领养的不再显示
-                           @RequestParam(value = "page", defaultValue = "1")
-                                   Integer pageNum,
-                           HttpSession session,
-                           @RequestParam(value = "limit", defaultValue = "5")
-                                   Integer pageSize,
-                           @RequestParam(value = "content", required = false)
-                                   String content) {
+    public Object getList2(
+            @RequestParam(value = "page", defaultValue = "1")
+                    Integer pageNum,
+            HttpSession session,
+            @RequestParam(value = "limit", defaultValue = "5")
+                    Integer pageSize,
+            @RequestParam(value = "content", required = false)
+                    String content) {
 
         Page<Pet> page = new Page<>(pageNum, pageSize);
 
         petService.getPetspersonal(page, content);
 
+        //检索到当前登录用户的领养记录
+        User user = (User) session.getAttribute("user_session");
+        Integer userId = user.getId();
+        List<Pet> list = page.getRecords();
+        ArrayList<Object> arrayList = new ArrayList<>();
+        list.forEach(item -> {
+            Integer id = item.getUserId();
+            if (id.equals(userId)) {//找到了登录用户的记录
+                arrayList.add(item);
+            }
+        });
 
         Map<String, Object> map = new HashMap<>();
-
-        map.put("list", page.getRecords());
+        map.put("list", arrayList);
         map.put("count", page.getTotal());
         map.put("limit", page.getSize());
         map.put("page", page.getCurrent());
@@ -275,4 +303,84 @@ public class QianTaiController {
         map.put("prePage", page.hasPrevious() ? page.getCurrent() - 1 : page.getCurrent());
         return map;
     }
+
+    @ResponseBody
+    @RequestMapping("/delAdopt")
+    public Object delAdopt(Integer petId, HttpSession session) {
+        User user = (User) session.getAttribute("user_session");
+        Integer userId = user.getId();
+        QueryWrapper<Adopt> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId).eq("pet_id", petId);
+        Adopt adopt = adoptService.getOne(wrapper, false);
+        if (adopt != null) {
+            HashMap<Object, Object> map = new HashMap<>();
+            boolean b = adoptService.removeById(adopt.getId());
+            if (b = true) {
+                //删除成功
+                map.put("msg", true);
+
+            } else {
+                map.put("msg", false);
+            }
+            return map;
+        } else {
+            HashMap<Object, Object> map = new HashMap<>();
+            map.put("msg", "未查到记录");
+            return map;
+        }
+    }
+
+
+    @RequestMapping("/toSendAdopt")
+    public String toSendAdopt(Model model) {
+        List<Category> list = categoryService.list();
+        model.addAttribute("categoryList", list);
+        return "user/sendAdopt";
+    }
+
+
+    @RequestMapping("/SendAdopt")
+    public String add(Pet pet) {
+        Date now = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String cteatetime = format.format(now);
+        pet.setCreatetime(cteatetime);
+
+        petService.saveOrUpdate(pet);
+        return "user/petList";
+    }
+
+
+    @RequestMapping("/toEditPersonal")
+    public String toUpd(Model model,HttpSession session) {
+        //查数据
+        User user2 = (User) session.getAttribute("user_session");
+        Integer userId = user2.getId();
+        User user = userService.getById(userId);
+        Date birthday = user.getBirthday();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String s = sdf.format(birthday);
+        model.addAttribute("birthday", s);
+        model.addAttribute("user", user);
+        return "user/editPersonal";
+    }
+    @RequestMapping("/toEditPersonal2")
+    public String toUpd2(Model model,HttpSession session) {
+        //查数据
+        User user2 = (User) session.getAttribute("user_session");
+        Integer userId = user2.getId();
+        User user = userService.getById(userId);
+        Date birthday = user.getBirthday();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String s = sdf.format(birthday);
+        model.addAttribute("birthday", s);
+        model.addAttribute("user", user);
+        return "user/editPersonal2";
+    }
+    @RequestMapping("/toEditPassword")
+    public String toEditPassword(Model model) {
+
+        return "user/editPassword";
+    }
+
 }

@@ -25,8 +25,20 @@
           href="${pageContext.request.contextPath}/qiantai_user/assets/i/app-icon72x72@2x.png">
     <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
     <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/layui/css/layui.css" media="all">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/qiantai_user/assets/css/amazeui.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/qiantai_user/assets/css/app.css">
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/style/template.css" media="all">
+    <%--
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/qiantai_user/assets/css/amazeui.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/layui/css/layui.css" media="all">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/qiantai_user/assets/css/app.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/style/admin.css" media="all">--%>
+
+
     <style>
         .button.gray {
             color: #8c96a0;
@@ -36,6 +48,15 @@
             background: -webkit-linear-gradient(top, #f2f3f7, #e4e8ec);
             background: -moz-linear-gradient(top, #f2f3f7, #e4e8ec);
             background: linear-gradient(top, #f2f3f7, #e4e8ec);
+        }
+
+
+        #bolt-container div {
+            display: none;
+        }
+
+        .layui-form-label{
+            width: 100px;
         }
 
 
@@ -61,13 +82,13 @@
 
         <div class="am-collapse am-topbar-collapse" id="blog-collapse">
             <ul class="am-nav am-nav-pills am-topbar-nav">
-                <li class="am-active"><a href="/front">首页</a></li>
-                <li class=""><a href="/user/petList">领养中心</a></li>
+                <li class=""><a href="/front">首页</a></li>
+                <li><a href="/user/petList">领养中心</a></li>
                 <li><a href="/user/toArticleList">文章动态</a></li>
                 <li><a href="/user/toImages">宠图锦集</a></li>
 
                 <li class="am-dropdown" data-am-dropdown>
-                    <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <a style="color: #10D07A" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                         个人领养管理 <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
@@ -75,9 +96,6 @@
                         <li><a href="/user/toSendAdopt">送养宠物</a></li>
                     </ul>
                 </li>
-
-
-                <li><a href="/stulogout">退出登录</a></li>
 
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -89,186 +107,182 @@
                         <li><a href="javascript:void (0);" @click="toEditPassword">修改密码</a></li>
                     </ul>
                 </li>
-
-
-                <%--<li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;"><img src="/img/headImg.gif" style="width: 35px;height: 35px"
-                                                class="layui-nav-img">我</a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
-                        <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
-                    </dl>
-                </li>--%>
+                <li><a href="/stulogout">退出登录</a></li>
             </ul>
-        <%--    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+            <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
                 <div class="am-form-group">
                     <input type="text" class="am-form-field am-input-sm" placeholder="搜索" @input="searchFun"
                            v-model="content">
                 </div>
-            </form>--%>
+            </form>
         </div>
     </nav>
     <hr>
     <!-- nav end -->
     <!-- banner start -->
-    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-article-margin">
-        <div data-am-widget="slider" class="am-slider am-slider-b1" data-am-slider='{&quot;controlNav&quot;:false}'>
-            <ul class="am-slides">
-                <li>
-                    <img src="../../qiantai_user/assets/i/b1.jpg">
-                    <div class="blog-slider-desc am-slider-desc ">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>那时候刚好下着雨，柏油路面湿冷冷的，还闪烁着青、黄、红颜色的灯火。
-                            </p>
-                            <span class="blog-bor">2021/04/18</span>
-                            <br><br><br><br><br><br><br>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <img src="../../qiantai_user/assets/i/b2.jpg">
-                    <div class="am-slider-desc blog-slider-desc">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>祝你不用奔赴大海，也能春暖花开。祝你不用颠沛流离，也能遇到陪伴。祝你不用熬过黑夜，已经等到晚安。如果这些都很难，祝你平平安安。
-                            </p>
-                            <span>2021/04/18</span>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <img src="../../qiantai_user/assets/i/b3.jpg" alt="iodfhjkofg">
 
-                    <div class="am-slider-desc blog-slider-desc">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>小时候一直不理解，父母为什么可以那么早起床，长大后才明白，叫醒他们的不是闹钟，而是生活和责任，哪有什么岁月静好，只不过有人在替你负重前行。
-                            </p>
-                            <span>2021/04/18</span>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <img src="../../qiantai_user/assets/i/b2.jpg">
-                    <div class="am-slider-desc blog-slider-desc">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>"不要忘记你曾是怎样的小孩"；"不要忘记你曾希望变成怎样的大人"
-                            </p>
-                            <span>2021/04/18</span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
     <!-- banner end -->
 
     <!-- content srart -->
-<%--    <div class="am-g am-g-fixed blog-fixed">
-        <div class="am-u-md-8 am-u-sm-12">
+    <div class="am-g am-g-fixed blog-fixed">
+<%--        <div class="am-u-md-12 am-u-sm-12">--%>
 
 
-            <article class="am-g blog-entry-article" v-for="pet in pets">
-                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                    <img :src="pet.imgpath" class="am-u-sm-12"/>
+            <div class="layui-fluid">
+                <div class="layui-card">
+                    <div class="layui-card-header">送养宠物</div>
+                    <div class="layui-card-body" style="padding: 15px;">
+                        <form class="layui-form" method="post" style="padding-left: 240px"
+                              action="${pageContext.request.contextPath}/user/SendAdopt?id=${pet.id}"
+                              lay-filter="component-form-group">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">宠物名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="petname" lay-verify="required" autocomplete="off"
+                                               value="${pet.petname}"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">年龄/岁</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="age" lay-verify="required" autocomplete="off"
+                                               value="${pet.age}"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">类别</label>
+                                    <div class="layui-input-inline">
+
+                                        <select name="categoryId" lay-verify="required" lay-filter="categoryId"
+                                                id="categoryId">
+                                            <option value="">请选择宠物类别</option>
+                                            <c:forEach var="item" items="${categoryList}">
+
+                                                <option value="${item.id}">${item.name}</option>
+
+                                            </c:forEach>
+                                        </select>
+
+
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">品种</label>
+                                    <div class="layui-input-inline">
+
+                                        <select name="varietyId" lay-verify="required" lay-filter="varietyId"
+                                                id="varietyId">
+                                            <option value="">请先选择宠物类别</option>
+                                            <c:forEach var="item" items="${varietyList}">
+
+                                                <option value="${item.id}">${item.name}</option>
+
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline" hidden>
+                                    <label class="layui-form-label">领养状态</label>
+                                    <div class="layui-input-inline">
+                                        <select name="status">
+                                            <option value="">请选择领养状态</option>
+                                            <option value="0" selected>待领养</option>
+                                            <option value="1">申请中</option>
+                                            <option value="2">被领养</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline" hidden>
+                                    <label class="layui-form-label">来源</label>
+                                    <div class="layui-input-inline">
+                                        <select name="source">
+                                            <option value="">请选择宠物来源</option>
+                                            <option value="0">流浪宠物</option>
+                                            <option value="1" selected>送养宠物</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">疫苗情况</label>
+                                    <div class="layui-input-inline">
+                                        <select name="vaccine">
+                                            <option value="">请选择疫苗接种情况</option>
+                                            <option value="0">未接种</option>
+                                            <option value="1">已经接种</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="sex" value="0" title="雄性" checked>
+                                        <input type="radio" name="sex" value="1" title="雌性">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">宠物照片</label>
+                                <div class="layui-card-body">
+                                    <div class="layui-upload-drag" id="test-upload-drag">
+                                        <i class="layui-icon"></i>
+                                        <p>点击上传，或将文件拖拽到此处</p>
+                                        <div class="layui-hide" id="uploadDemoView">
+                                            <hr>
+                                            <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                                        </div>
+                                        <input type="hidden" name="imgpath" id="inputImg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label" style="float: left">宠物描述</label>
+                                <div class="layui-card-body" style="float: left">
+                                    <div style="width: 535px;margin-left: -14px">
+                            <textarea name="description" placeholder="请输入"
+                                      class="layui-textarea"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item layui-layout-admin">
+                                <div class="layui-input-block">
+                                    <div class="layui-footer" style="left: 0; text-align: center">
+                                        <button type="submit" class="layui-btn" lay-submit=""
+                                                lay-filter="component-form-demo1">
+                                            立即申请
+                                        </button>
+                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                    <span style="font-weight: bold">昵称:</span>
-                    <span style="font-style: italic">{{pet.petname}}</span>
-                    <span style="">（{{pet.age}}岁）</span>
-                    <hr>
-                    <span style="font-weight: bold">宠物类别:</span>
-                    <span style="font-weight: bold">{{pet.cname}}</span>
-                    <br>
-                    <span style="font-weight: bold">宠物品种:</span>
-                    <span style="font-weight: bold">{{pet.vname}}</span>
-                    <hr>
-                    <span style="font-weight: bold">宠物状态:</span>
-                    <span style="font-weight: bold">{{pet.status|contentFormat2}}</span>
-                    <hr>
-                    <span style="font-weight: bold">宠物描述:</span>
-                    <span><a href="javascript:void (0)"
-                             :title="pet.description">{{pet.description|contentFormat}}</a></span>
-
-                    <hr>
-
-                    <button type="button" class="button gray" @click="display_detail(pet.id)">查看详情</button>&nbsp;&nbsp;
-                    <button type="button" class="button gray" @click="submit_resume(pet.id)">领养我叭</button>
-                    <button style="margin-left: 10px" type="button" class="button gray" @click="submit_comment(pet.id)">
-                        评论我叭
-                    </button>
-                </div>
-            </article>
+            </div>
 
 
-            <ul class="am-pagination">
-                <li class="am-pagination-prev"><a href="javascript:void (0);" @click="prePageFun">&laquo; 上一页</a></li>
-                <li class="am-pagination-prev" style="position: absolute;left:320px;border:none !important;"><a
-                        href="javascript:void (0);">{{page}}/{{pages}}</a></li>
-                <li class="am-pagination-next"><a href="javascript:void (0);" @click="nextPageFun">下一页&raquo;</a></li>
-            </ul>
         </div>
-
-
-
-
-
-
-        <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
-            <div class="blog-sidebar-widget blog-bor">
-                <h2 class="blog-text-center blog-title"><span>About ME</span></h2>
-                <img src="${pageContext.request.contextPath}/img/${session_user.imgpath}" alt="about me"
-                     class="blog-entry-img">
-                <p>${session_user.name}</p>
-                <p>${session_user.schoolname} ${session_user.speciality}专业</p>
-                <span style="font-weight: bold">性别：</span><span>${session_user.sex==0?'男':'女'}</span>
-
-            </div>
-            <div class="blog-sidebar-widget blog-bor">
-                <h2 class="blog-text-center blog-title"><span>Contact</span></h2>
-                <p>
-                    <span style="font-weight: bold">邮箱：</span><span>${session_user.email}</span>
-                    <br>
-                    <span style="font-weight: bold">电话：</span><span>${session_user.phone}</span>
-
-                </p>
-            </div>
-            <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
-                <h2 class="blog-title"><span>DATE</span></h2>
-                <span style="font-weight: bold">birth：</span><span>${session_user.birthday}</span>
-                <br>
-                <span style="font-weight: bold">register：</span><span>${session_user.createdate}</span>
-                <br>
-                <span style="font-weight: bold">matriculate：</span><span>${session_user.matriculate}</span>
-                <br> <br>
-
-            </div>
-            <div class="blog-sidebar-widget blog-bor" style="text-align: left;padding-left: 50px">
-                <h2 class="blog-title"><span>最新公告</span></h2>
-
-                <span style="font-weight: bold">发布人：</span><span id="notice_issue_name"></span>
-                <br>
-                <br>
-                <span style="font-weight: bold">标题：</span><span id="notice_title"></span>
-                <br>
-                <br>
-                <span id="notice_content"></span>
-                <br>
-                <br>
-                <span style="font-weight: bold">发布时间：</span><span id="notice_issueTime"></span>
-                <br>
-                <br>
-            </div>
-        </div>
-    </div>--%>
+    </div>
     <!-- content end -->
 
 
@@ -327,17 +341,106 @@
 <script src="${pageContext.request.contextPath}/vue/axios.min.js"></script>
 <script src="${pageContext.request.contextPath}/layuiadmin/layui/layui.js"></script>
 <script>
-    $.get("/user/newNotice", function (result) {
-        var obj = JSON.parse(result)
-        // console.log(obj)
-        var time = new Date(obj.createdate);
-        var strTime = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-        $("#notice_issue_name").text(obj.adminname);
-        $("#notice_title").text(obj.title);
-        $("#notice_content").text(obj.content);
-        $("#notice_issueTime").text(strTime);
+    layui.config({
+        base: '../../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'laydate', 'upload'], function () {
+        var $ = layui.$
+            , upload = layui.upload
+            , admin = layui.admin
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , form = layui.form;
 
-    })
+        form.render(null, 'component-form-group');
+
+
+        //常规用法
+        laydate.render({
+            elem: '#test-laydate-normal-cn',
+            //弹窗一闪而过：   默认是focus,改为click
+            type: 'date',
+            trigger: 'click' //采用click弹出
+        });
+
+
+        //拖拽上传
+        upload.render({
+            elem: '#test-upload-drag'
+            , url: '/pet/updImg'//该接口返回的相应信息（response）必须是一个标准的 JSON 格式
+            , done: function (res) {
+                console.log(res.data)
+                var imgpath = res.data;
+                $("#inputImg").val(imgpath);
+                layer.msg('上传成功！')
+                layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', imgpath);
+            },
+            error: function (res) {
+                //请求异常回调
+                alert(res)
+            }
+        });
+
+
+        /* 自定义验证规则 */
+        form.verify({
+            title: function (value) {
+                if (value.length < 5) {
+                    return '标题至少得5个字符啊';
+                }
+            }
+            , pass: [/(.+){6,12}$/, '密码必须6到12位']
+            , content: function (value) {
+                layedit.sync(editIndex);
+            }
+        });
+
+        /* 监听指定开关 */
+        form.on('switch(component-form-switchTest)', function (data) {
+            layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        /* 监听提交 */
+        form.on('submit(component-form-demo1)', function (data) {
+            /*         parent.layer.alert(JSON.stringify(data.field), {
+                         title: '最终的提交信息'
+                     })*/
+            // return false;
+            //关闭小框
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);//关闭当前弹窗页面
+
+        });
+
+        //二级联动
+        form.on('select(categoryId)', function (data) {
+
+            var categoryId = data.value
+            // alert(categoryId)
+            $.get("/pet/getvariety?id=" + categoryId, function (data) {
+
+                console.log(data)
+                $("#varietyId").empty();
+                $('#varietyId').append($('<option value="">选择品种</option>'))
+                if (data.length > 0) {
+                    data.forEach(function (e) {
+                        var node = '<option value=' + e.id + '>' + e.name + '</option>'
+                        $('#varietyId').append($(node))
+                    });
+                } else {
+                    $('#varietyId').append($('<option value="">赞无品种，管理员添加品种后才能选择！</option>'))
+                }
+                layui.form.render("select");//重新渲染 固定写法
+            });
+        });
+    });
+
+
 </script>
 
 <script>
@@ -439,7 +542,7 @@
                                     });
                                     layer.close(index);
                                 });
-                            }else {
+                            } else {
                                 layer.open({
                                     type: 2,
                                     title: false,
@@ -616,7 +719,13 @@
                 })
                 //*********弹框结束位置***************
             }
+
         },
+
+
+
+
+
         filters: {
             contentFormat: function (value) {
                 if (value.length > 45) {
@@ -635,7 +744,8 @@
         }
     })
 
-
 </script>
+
+
 </body>
 </html>
