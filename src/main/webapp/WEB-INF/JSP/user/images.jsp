@@ -77,24 +77,23 @@
                     </ul>
                 </li>
 
+                <li><a href="javascript:void (0);" onclick="userlogout()">退出登录</a></li>
+
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        个人信息 <span class="am-icon-caret-down"></span>
+                        <img id="img1" src="${user_session.imgpath}"
+                             style="width: 35px;height: 35px;border-radius: 30px" class="layui-nav-img">
+                        <span id="span1">${user_session.realname}</span>
+                        <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
-                        <li><a href="javascript:void (0);" @click="toEditPersonal">完善个人信息</a></li>
-                        <li><a href="javascript:void (0);" @click="toEditPersonal2">查看/修改个人信息</a></li>
-                        <li><a href="javascript:void (0);" @click="toEditPassword">修改密码</a></li>
+                        <li><a href="javascript:void (0);" onclick="toEditPersonal()">完善个人信息</a></li>
+                        <li><a href="javascript:void (0);" onclick="toEditPersonal2()">查看/修改个人信息</a></li>
+                        <li><a href="javascript:void (0);" onclick="toEditPassword()">修改密码</a></li>
                     </ul>
                 </li>
-                <li><a href="/stulogout">退出登录</a></li>
             </ul>
-            <%--    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
-                    <div class="am-form-group">
-                        <input type="text" class="am-form-field am-input-sm" placeholder="搜索" @input="searchFun"
-                               v-model="content">
-                    </div>
-                </form>--%>
+
         </div>
     </nav>
 
@@ -216,6 +215,10 @@
         <div class="blog-text-center">© 2021 April, Inc. Luoyang institute of technology. computer specialty</div>
     </footer>
 </div>
+
+
+
+
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="${pageContext.request.contextPath}/qiantai_user/assets/js/jquery.min.js"></script>
 <!--<![endif]-->
@@ -225,96 +228,106 @@
 <script src="${pageContext.request.contextPath}/qiantai_user/assets/js/amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
 <script src="${pageContext.request.contextPath}/qiantai_user/assets/js/amazeui.min.js"></script>
-<script src="${pageContext.request.contextPath}/vue/vue.min.js"></script>
-<script src="${pageContext.request.contextPath}/vue/axios.min.js"></script>
 <script src="${pageContext.request.contextPath}/qiantai_user/assets/js/pinto.min.js"></script>
 <script src="${pageContext.request.contextPath}/qiantai_user/assets/js/img.js"></script>
 <script src="${pageContext.request.contextPath}/layuiadmin/layui/layui.js"></script>
 
-
 <script>
-    new Vue({
-        el: "#app",
-        methods: {
-            toEditPassword: function () {
+    function userlogout() {
 
-                //*********弹框开始位置**********
+        //*********弹框开始位置**********
 
-                layui.config({
-                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
-                }).extend({
-                    index: 'lib/index' //主入口模块
-                }).use(['index', 'table'], function () {
-                    layer.open({
-                        type: 2,
-                        title: false,
-                        closeBtn: 0,
-                        shadeClose: true,
-                        skin: 'yourClass',
-                        area: ['600px', '400px'],
-                        end: function () {
-                            /* tableIns.reload()*/
-                        },
-                        content: "/user/toEditPassword"
-                    });
-                })
-                //*********弹框结束位置***************
-            },
-            toEditPersonal: function () {
+        layui.config({
+            base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table'], function () {
 
-                //*********弹框开始位置**********
+            layer.confirm("您确定退出登陆吗？", function () {
+                layer.close()
+                location.href = "/userlogout"
+            })
+        })
+        //*********弹框结束位置***************
+    }
 
-                layui.config({
-                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
-                }).extend({
-                    index: 'lib/index' //主入口模块
-                }).use(['index', 'table'], function () {
-                    layer.open({
-                        type: 2,
-                        title: false,
-                        closeBtn: 0,
-                        shadeClose: true,
-                        skin: 'yourClass',
-                        area: ['450px', '600px'],
-                        end: function () {
-                            /* tableIns.reload()*/
-                        },
-                        content: "/user/toEditPersonal"
-                    });
-                })
-                //*********弹框结束位置***************
-            },
-            toEditPersonal2: function () {
+    function toEditPersonal() {
+        //*********弹框开始位置**********
 
-                //*********弹框开始位置**********
+        layui.config({
+            base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table'], function () {
+            layer.open({
+                type: 2,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                skin: 'yourClass',
+                area: ['450px', '600px'],
+                end: function () {
+                    /* tableIns.reload()*/
+                },
+                content: "/user/toEditPersonal"
+            });
+        })
+        //*********弹框结束位置***************
+    }
 
-                layui.config({
-                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
-                }).extend({
-                    index: 'lib/index' //主入口模块
-                }).use(['index', 'table'], function () {
-                    layer.open({
-                        type: 2,
-                        title: false,
-                        closeBtn: 0,
-                        shadeClose: true,
-                        skin: 'yourClass',
-                        area: ['450px', '600px'],
-                        end: function () {
-                            /* tableIns.reload()*/
-                        },
-                        content: "/user/toEditPersonal2"
-                    });
-                })
-                //*********弹框结束位置***************
-            }
+    function toEditPersonal2() {
+        //*********弹框开始位置**********
 
-        },
+        layui.config({
+            base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table'], function () {
+            layer.open({
+                type: 2,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                skin: 'yourClass',
+                area: ['800px', '590px'],
+                end: function () {
+                    /* tableIns.reload()*/
+                },
+                content: "/user/toEditPersonal2"
+            });
+        })
+        //*********弹框结束位置***************
+    }
+
+    function toEditPassword() {
+        //*********弹框开始位置**********
+
+        layui.config({
+            base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table'], function () {
+            layer.open({
+                type: 2,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                skin: 'yourClass',
+                area: ['500px', '300px'],
+                end: function () {
+                    /* tableIns.reload()*/
+                },
+                content: "/user/toEditPassword"
+            });
+        })
+        //*********弹框结束位置***************
+    }
 
 
-
-    })
 </script>
+
+
+
 
 </body>
 </html>

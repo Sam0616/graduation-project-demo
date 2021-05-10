@@ -97,9 +97,14 @@
                     </ul>
                 </li>
 
+                <li><a href="javascript:void (0);" @click="userlogout">退出登录</a></li>
+
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        个人信息 <span class="am-icon-caret-down"></span>
+                        <img id="img1" src="${user_session.imgpath}"
+                             style="width: 35px;height: 35px;border-radius: 30px" class="layui-nav-img">
+                        <span id="span1">${user_session.realname}</span>
+                        <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
                         <li><a href="javascript:void (0);" @click="toEditPersonal">完善个人信息</a></li>
@@ -107,7 +112,6 @@
                         <li><a href="javascript:void (0);" @click="toEditPassword">修改密码</a></li>
                     </ul>
                 </li>
-                <li><a href="/stulogout">退出登录</a></li>
             </ul>
             <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
                 <div class="am-form-group">
@@ -254,6 +258,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="layui-form-item">
                                 <label class="layui-form-label" style="float: left">宠物描述</label>
                                 <div class="layui-card-body" style="float: left">
@@ -371,7 +376,6 @@
             elem: '#test-upload-drag'
             , url: '/pet/updImg'//该接口返回的相应信息（response）必须是一个标准的 JSON 格式
             , done: function (res) {
-                console.log(res.data)
                 var imgpath = res.data;
                 $("#inputImg").val(imgpath);
                 layer.msg('上传成功！')
@@ -647,6 +651,27 @@
 
                 //*********弹框结束位置***************
             },
+
+
+
+
+            userlogout: function () {
+
+                //*********弹框开始位置**********
+
+                layui.config({
+                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+                }).extend({
+                    index: 'lib/index' //主入口模块
+                }).use(['index', 'table'], function () {
+
+                    layer.confirm("您确定退出登陆吗？", function () {
+                        layer.close()
+                        location.href = "/userlogout"
+                    })
+                })
+                //*********弹框结束位置***************
+            },
             toEditPassword: function () {
 
                 //*********弹框开始位置**********
@@ -662,7 +687,7 @@
                         closeBtn: 0,
                         shadeClose: true,
                         skin: 'yourClass',
-                        area: ['600px', '400px'],
+                        area: ['500px', '300px'],
                         end: function () {
                             /* tableIns.reload()*/
                         },
@@ -710,7 +735,7 @@
                         closeBtn: 0,
                         shadeClose: true,
                         skin: 'yourClass',
-                        area: ['450px', '600px'],
+                        area: ['800px', '590px'],
                         end: function () {
                             /* tableIns.reload()*/
                         },

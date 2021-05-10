@@ -8,7 +8,8 @@
     <title>修改信息界面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/style/admin.css" media="all">
 </head>
@@ -18,8 +19,30 @@
     <div class="layui-card">
         <div class="layui-card-header">查看/修改个人信息</div>
         <div class="layui-card-body" style="padding: 15px;">
-            <form class="layui-form" method="post" action="${pageContext.request.contextPath}/user/updPersonal?id=${user.id}"
+
+            <form class="layui-form" method="post"
+            <%--                  action="${pageContext.request.contextPath}/user/updPersonal?id=${user.id}"--%>
                   lay-filter="component-form-group">
+
+
+                <div class="layui-form-item">
+                    <input type="hidden" name="id" value="${user.id}">
+                    <label class="layui-form-label">上传头像</label>
+                    <div class="layui-card-body">
+                        <div class="layui-upload-drag" id="test-upload-drag">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                            <div class="" id="uploadDemoView">
+                                <hr>
+                                <img src="${user_session.imgpath}" alt="上传成功后渲染" style="max-width: 196px">
+                            </div>
+                            <input type="hidden" name="imgpath" id="inputImg">
+                        </div>
+                    </div>
+
+
+                </div>
+
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">登录名</label>
@@ -27,8 +50,7 @@
                             <input type="text" name="loginname" lay-verify="required" autocomplete="off"
                                    value="${user.loginname}"
                                    class="layui-input">
-                            <%-- <input type="hidden" name="id" lay-verify="required" autocomplete="off" value="${user.id}"
-                                    class="layui-input">--%>
+
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -88,6 +110,15 @@
                 </div>
 
                 <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">出生日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="birthdays" lay-verify="required" class="layui-input" id="test-laydate-normal-cn"
+                                   value="${birthday}"
+                                   placeholder="yyyy-MM-dd">
+                        </div>
+                    </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">性别</label>
                         <div class="layui-input-block">
@@ -98,21 +129,10 @@
                 </div>
 
 
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">出生日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="birthdays" class="layui-input" id="test-laydate-normal-cn" value="${birthday}"
-                                   placeholder="yyyy-MM-dd">
-                        </div>
-                    </div>
-                </div>
-
-
                 <div class="layui-form-item layui-layout-admin">
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
-                            <button type="submit" class="layui-btn" lay-submit="" lay-filter="component-form-demo1">
+                            <button type="button" class="layui-btn" lay-submit="" lay-filter="component-form-demo1">
                                 立即提交
                             </button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -131,8 +151,10 @@
         base: '../../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'form', 'laydate'], function () {
+    }).use(['index', 'form', 'laydate', 'upload'], function () {
+
         var $ = layui.$
+            , upload = layui.upload
             , admin = layui.admin
             , element = layui.element
             , layer = layui.layer
@@ -149,6 +171,25 @@
             type: 'date',
             trigger: 'click' //采用click弹出
         });
+
+
+        //拖拽上传
+        upload.render({
+            elem: '#test-upload-drag'
+            , url: '/pet/updImg'//该接口返回的相应信息（response）必须是一个标准的 JSON 格式
+            , done: function (res) {
+                console.log(res.data)
+                var imgpath = res.data;
+                $("#inputImg").val(imgpath);
+                layer.msg('上传成功！')
+                layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', imgpath);
+            },
+            error: function (res) {
+                //请求异常回调
+                alert(res)
+            }
+        });
+
 
         /* 自定义验证规则 */
         form.verify({
@@ -173,16 +214,31 @@
 
         /* 监听提交 */
         form.on('submit(component-form-demo1)', function (data) {
-            /*         parent.layer.alert(JSON.stringify(data.field), {
-                         title: '最终的提交信息'
-                     })*/
-            // return false;
-            //关闭小框
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);//关闭当前弹窗页面
+            // parent.location.href = "/front"
+            var obj = data.field
 
+            $.post("/user/updPersonal", obj, function (result) {
+                parent.layer.alert(result, {
+                })
+
+                //给名字赋值
+                var name = data.field.realname
+                parent.$("#span1").text(name)
+
+                //给头像赋值
+                if (data.field.imgpath!="") {
+                    var path = data.field.imgpath
+                    parent.$("#img1").attr('src', path);
+                }
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);//关闭当前弹窗页面
+            })
         });
+
+
     });
 </script>
 </body>
 </html>
+
+

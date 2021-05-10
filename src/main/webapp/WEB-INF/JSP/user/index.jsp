@@ -77,11 +77,14 @@
                 </li>
 
 
-                <li><a href="/stulogout">退出登录</a></li>
+                <li><a href="javascript:void (0);" @click="userlogout">退出登录</a></li>
 
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        个人信息 <span class="am-icon-caret-down"></span>
+                        <img id="img1" src="${user_session.imgpath}"
+                             style="width: 35px;height: 35px;border-radius: 30px" class="layui-nav-img">
+                        <span id="span1">${user_session.realname}</span>
+                        <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
                         <li><a href="javascript:void (0);" @click="toEditPersonal">完善个人信息</a></li>
@@ -90,24 +93,7 @@
                     </ul>
                 </li>
 
-
-                <%--<li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;"><img src="/img/headImg.gif" style="width: 35px;height: 35px"
-                                                class="layui-nav-img">我</a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
-                        <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
-                    </dl>
-                </li>--%>
             </ul>
-        <%--    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
-                <div class="am-form-group">
-                    <input type="text" class="am-form-field am-input-sm" placeholder="搜索" @input="searchFun"
-                           v-model="content">
-                </div>
-            </form>--%>
         </div>
     </nav>
     <hr>
@@ -172,103 +158,6 @@
     <!-- banner end -->
 
     <!-- content srart -->
-<%--    <div class="am-g am-g-fixed blog-fixed">
-        <div class="am-u-md-8 am-u-sm-12">
-
-
-            <article class="am-g blog-entry-article" v-for="pet in pets">
-                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                    <img :src="pet.imgpath" class="am-u-sm-12"/>
-                </div>
-                <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                    <span style="font-weight: bold">昵称:</span>
-                    <span style="font-style: italic">{{pet.petname}}</span>
-                    <span style="">（{{pet.age}}岁）</span>
-                    <hr>
-                    <span style="font-weight: bold">宠物类别:</span>
-                    <span style="font-weight: bold">{{pet.cname}}</span>
-                    <br>
-                    <span style="font-weight: bold">宠物品种:</span>
-                    <span style="font-weight: bold">{{pet.vname}}</span>
-                    <hr>
-                    <span style="font-weight: bold">宠物状态:</span>
-                    <span style="font-weight: bold">{{pet.status|contentFormat2}}</span>
-                    <hr>
-                    <span style="font-weight: bold">宠物描述:</span>
-                    <span><a href="javascript:void (0)"
-                             :title="pet.description">{{pet.description|contentFormat}}</a></span>
-
-                    <hr>
-
-                    <button type="button" class="button gray" @click="display_detail(pet.id)">查看详情</button>&nbsp;&nbsp;
-                    <button type="button" class="button gray" @click="submit_resume(pet.id)">领养我叭</button>
-                    <button style="margin-left: 10px" type="button" class="button gray" @click="submit_comment(pet.id)">
-                        评论我叭
-                    </button>
-                </div>
-            </article>
-
-
-            <ul class="am-pagination">
-                <li class="am-pagination-prev"><a href="javascript:void (0);" @click="prePageFun">&laquo; 上一页</a></li>
-                <li class="am-pagination-prev" style="position: absolute;left:320px;border:none !important;"><a
-                        href="javascript:void (0);">{{page}}/{{pages}}</a></li>
-                <li class="am-pagination-next"><a href="javascript:void (0);" @click="nextPageFun">下一页&raquo;</a></li>
-            </ul>
-        </div>
-
-
-
-
-
-
-        <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
-            <div class="blog-sidebar-widget blog-bor">
-                <h2 class="blog-text-center blog-title"><span>About ME</span></h2>
-                <img src="${pageContext.request.contextPath}/img/${session_user.imgpath}" alt="about me"
-                     class="blog-entry-img">
-                <p>${session_user.name}</p>
-                <p>${session_user.schoolname} ${session_user.speciality}专业</p>
-                <span style="font-weight: bold">性别：</span><span>${session_user.sex==0?'男':'女'}</span>
-
-            </div>
-            <div class="blog-sidebar-widget blog-bor">
-                <h2 class="blog-text-center blog-title"><span>Contact</span></h2>
-                <p>
-                    <span style="font-weight: bold">邮箱：</span><span>${session_user.email}</span>
-                    <br>
-                    <span style="font-weight: bold">电话：</span><span>${session_user.phone}</span>
-
-                </p>
-            </div>
-            <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
-                <h2 class="blog-title"><span>DATE</span></h2>
-                <span style="font-weight: bold">birth：</span><span>${session_user.birthday}</span>
-                <br>
-                <span style="font-weight: bold">register：</span><span>${session_user.createdate}</span>
-                <br>
-                <span style="font-weight: bold">matriculate：</span><span>${session_user.matriculate}</span>
-                <br> <br>
-
-            </div>
-            <div class="blog-sidebar-widget blog-bor" style="text-align: left;padding-left: 50px">
-                <h2 class="blog-title"><span>最新公告</span></h2>
-
-                <span style="font-weight: bold">发布人：</span><span id="notice_issue_name"></span>
-                <br>
-                <br>
-                <span style="font-weight: bold">标题：</span><span id="notice_title"></span>
-                <br>
-                <br>
-                <span id="notice_content"></span>
-                <br>
-                <br>
-                <span style="font-weight: bold">发布时间：</span><span id="notice_issueTime"></span>
-                <br>
-                <br>
-            </div>
-        </div>
-    </div>--%>
     <!-- content end -->
 
 
@@ -326,19 +215,7 @@
 <script src="${pageContext.request.contextPath}/vue/vue.min.js"></script>
 <script src="${pageContext.request.contextPath}/vue/axios.min.js"></script>
 <script src="${pageContext.request.contextPath}/layuiadmin/layui/layui.js"></script>
-<script>
-    $.get("/user/newNotice", function (result) {
-        var obj = JSON.parse(result)
-        // console.log(obj)
-        var time = new Date(obj.createdate);
-        var strTime = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-        $("#notice_issue_name").text(obj.adminname);
-        $("#notice_title").text(obj.title);
-        $("#notice_content").text(obj.content);
-        $("#notice_issueTime").text(strTime);
 
-    })
-</script>
 
 <script>
 
@@ -439,7 +316,7 @@
                                     });
                                     layer.close(index);
                                 });
-                            }else {
+                            } else {
                                 layer.open({
                                     type: 2,
                                     title: false,
@@ -559,7 +436,7 @@
                         closeBtn: 0,
                         shadeClose: true,
                         skin: 'yourClass',
-                        area: ['600px', '400px'],
+                        area: ['500px', '300px'],
                         end: function () {
                             /* tableIns.reload()*/
                         },
@@ -568,6 +445,25 @@
                 })
                 //*********弹框结束位置***************
             },
+            userlogout: function () {
+
+                //*********弹框开始位置**********
+
+                layui.config({
+                    base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+                }).extend({
+                    index: 'lib/index' //主入口模块
+                }).use(['index', 'table'], function () {
+
+                    layer.confirm("您确定退出登陆吗？", function () {
+                        layer.close()
+                        location.href = "/userlogout"
+                    })
+                })
+                //*********弹框结束位置***************
+            },
+
+
             toEditPersonal: function () {
 
                 //*********弹框开始位置**********
@@ -585,7 +481,7 @@
                         skin: 'yourClass',
                         area: ['450px', '600px'],
                         end: function () {
-                            /* tableIns.reload()*/
+
                         },
                         content: "/user/toEditPersonal"
                     });
@@ -607,7 +503,8 @@
                         closeBtn: 0,
                         shadeClose: true,
                         skin: 'yourClass',
-                        area: ['450px', '600px'],
+                        area: ['800px', '590px'],
+
                         end: function () {
                             /* tableIns.reload()*/
                         },

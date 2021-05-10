@@ -26,18 +26,18 @@
 
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label">密码1</label>
+                    <label class="layui-form-label">密码</label>
                     <div class="layui-input-block">
-                        <input type="text" id="password1" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off"
+                        <input type="password" id="password1" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off"
                                class="layui-input" >
                     </div>
                 </div>
 
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label">密码2</label>
+                    <label class="layui-form-label">确认密码</label>
                     <div class="layui-input-block">
-                        <input type="text" id="password2" name="repassword" lay-verify="repassword" placeholder="请再次输入密码" autocomplete="off"
+                        <input type="password" id="password2" name="repassword" lay-verify="repassword" placeholder="请再次输入密码" autocomplete="off"
                                class="layui-input" >
                     </div>
                 </div>
@@ -59,6 +59,7 @@
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/qiantai_user/assets/js/jquery.min.js"></script>
 
 
 <script src="${pageContext.request.contextPath}/layuiadmin/layui/layui.js"></script>
@@ -114,19 +115,14 @@
         form.on('submit(component-form-demo1)', function (data) {
             var password=$("#password1").val();
 
-            $.post("/qiantai/editPassword", {password}, function (result) {
+            $.post("/user/editPassword", {password}, function (result) {
                 parent.layer.alert(result, {
-                    title: '修改状态'
                 })
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);//关闭当前弹窗页面
 
-                //刷新表格 5 随便传的参数，目的是为了在方法内判断触发函数的方式-- 手动 和非手动
-                parent.$('#queryRole').trigger("click", "5");
-
             })
 
-            return false;
         });
 
 

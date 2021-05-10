@@ -3,6 +3,8 @@ package com.ly.bigdata.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class indexController {
 
@@ -26,6 +28,13 @@ public class indexController {
 
     @RequestMapping("/tologin")
     public String tologin2() {
+        return "login";
+    }
+
+
+    @RequestMapping("/userlogout")
+    public String userlogout(HttpSession session){
+        session.invalidate();
         return "login";
     }
 

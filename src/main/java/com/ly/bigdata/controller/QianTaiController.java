@@ -9,12 +9,14 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -132,7 +134,7 @@ public class QianTaiController {
     }
 
     @RequestMapping("/toAdopt")
-    public String toAdopt(String id, Model model,HttpSession session) {
+    public String toAdopt(String id, Model model, HttpSession session) {
         model.addAttribute("id", id);
 
         User user = (User) session.getAttribute("user_session");
@@ -140,12 +142,12 @@ public class QianTaiController {
         QueryWrapper<Adopt> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId).eq("pet_id", id);
         Adopt adopt2 = adoptService.getOne(wrapper, false);
-        model.addAttribute("adopt",adopt2);
+        model.addAttribute("adopt", adopt2);
         return "user/addAdopt";
     }
 
     @RequestMapping("/toAdopt2")
-    public String toAdopt2(String id, Model model,HttpSession session) {
+    public String toAdopt2(String id, Model model, HttpSession session) {
         model.addAttribute("id", id);
 
         User user = (User) session.getAttribute("user_session");
@@ -153,7 +155,7 @@ public class QianTaiController {
         QueryWrapper<Adopt> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId).eq("pet_id", id);
         Adopt adopt2 = adoptService.getOne(wrapper, false);
-        model.addAttribute("adopt",adopt2);
+        model.addAttribute("adopt", adopt2);
         return "user/updAdopt";
     }
 
@@ -352,35 +354,92 @@ public class QianTaiController {
 
 
     @RequestMapping("/toEditPersonal")
-    public String toUpd(Model model,HttpSession session) {
+    public String toUpd(Model model, HttpSession session) {
         //查数据
         User user2 = (User) session.getAttribute("user_session");
         Integer userId = user2.getId();
         User user = userService.getById(userId);
         Date birthday = user.getBirthday();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String s = sdf.format(birthday);
-        model.addAttribute("birthday", s);
-        model.addAttribute("user", user);
+        if (birthday==null){
+            model.addAttribute("user", user);
+        }else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String s = sdf.format(birthday);
+            model.addAttribute("birthday", s);
+            model.addAttribute("user", user);
+        }
+
         return "user/editPersonal";
     }
+
     @RequestMapping("/toEditPersonal2")
-    public String toUpd2(Model model,HttpSession session) {
+    public String toUpd2(Model model, HttpSession session) {
         //查数据
         User user2 = (User) session.getAttribute("user_session");
         Integer userId = user2.getId();
         User user = userService.getById(userId);
         Date birthday = user.getBirthday();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String s = sdf.format(birthday);
-        model.addAttribute("birthday", s);
-        model.addAttribute("user", user);
+        if (birthday==null){
+            model.addAttribute("user", user);
+        }else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String s = sdf.format(birthday);
+            model.addAttribute("birthday", s);
+            model.addAttribute("user", user);
+        }
         return "user/editPersonal2";
     }
-    @RequestMapping("/toEditPassword")
-    public String toEditPassword(Model model) {
 
+    @RequestMapping("/toEditPassword")
+    public String toEditPassword() {
         return "user/editPassword";
+    }
+
+    @ResponseBody
+    @RequestMapping("/editPassword")
+    public Object editPassword(String password, HttpSession session) {
+        User user = (User) session.getAttribute("user_session");
+        //MD5加密
+        String s = DigestUtils.md5DigestAsHex(password.getBytes());
+        user.setPassword(s);
+        boolean b = userService.saveOrUpdate(user);
+        if (b == true) {
+
+            return "密码修改成功";
+        } else {
+
+            return "密码修改失败";
+        }
+
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/updPersonal")
+    public Object updPersonal(User user,HttpSession session,String birthdays) throws ParseException {
+        String imgpath = user.getImgpath();
+
+
+        if (imgpath == null || "".equals(imgpath)) {
+            //这种只更新其他属性，不更新宠物图片的操作，需要查回原来的图片路径，再设置回去，不然修改后图片会丢失
+            Integer id = user.getId();
+            User user1 = userService.getById(id);
+            String imgpath1 = user1.getImgpath();
+            user.setImgpath(imgpath1);//查回原来的图片路径，再设置回去，就不会出现图片丢失的bug了
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse(birthdays);
+        user.setBirthday(date);
+        boolean b = userService.saveOrUpdate(user);
+        if (b == true) {
+            session.setAttribute("user_session",user);
+            return "信息更新成功";
+        } else {
+            return "信息更新失败";
+        }
+
+
     }
 
 }

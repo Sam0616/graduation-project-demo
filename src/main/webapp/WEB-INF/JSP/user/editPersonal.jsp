@@ -8,7 +8,8 @@
     <title>修改信息界面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/style/admin.css" media="all">
 </head>
@@ -18,9 +19,12 @@
     <div class="layui-card">
         <div class="layui-card-header">完善个人信息</div>
         <div class="layui-card-body" style="padding: 15px;">
-            <form class="layui-form" method="post" action="${pageContext.request.contextPath}/user/updPersonal?id=${user.id}"
+            <form class="layui-form" method="post" id="form1"
+            <%--                  action="${pageContext.request.contextPath}/user/updPersonal?id=${user.id}"--%>
                   lay-filter="component-form-group">
                 <div class="layui-form-item">
+                    <input type="hidden" name="id" value="${user.id}">
+
                     <div class="layui-inline">
                         <label class="layui-form-label">登录名</label>
                         <div class="layui-input-inline">
@@ -102,7 +106,8 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">出生日期</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="birthdays" class="layui-input" id="test-laydate-normal-cn" value="${birthday}"
+                            <input type="text" name="birthdays" lay-verify="required" class="layui-input" id="test-laydate-normal-cn"
+                                   value="${birthday}"
                                    placeholder="yyyy-MM-dd">
                         </div>
                     </div>
@@ -112,7 +117,7 @@
                 <div class="layui-form-item layui-layout-admin">
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
-                            <button type="submit" class="layui-btn" lay-submit="" lay-filter="component-form-demo1">
+                            <button type="button" class="layui-btn" lay-submit="" lay-filter="component-form-demo1">
                                 立即提交
                             </button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -150,6 +155,7 @@
             trigger: 'click' //采用click弹出
         });
 
+
         /* 自定义验证规则 */
         form.verify({
             title: function (value) {
@@ -173,14 +179,17 @@
 
         /* 监听提交 */
         form.on('submit(component-form-demo1)', function (data) {
-            /*         parent.layer.alert(JSON.stringify(data.field), {
-                         title: '最终的提交信息'
-                     })*/
-            // return false;
-            //关闭小框
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);//关闭当前弹窗页面
+            var obj = data.field
+            $.post("/user/updPersonal", obj, function (result) {
+                parent.layer.alert(result, {})
 
+                //给名字赋值
+                var name = data.field.realname
+                parent.$("#span1").text(name)
+
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);//关闭当前弹窗页面
+            })
         });
     });
 </script>
