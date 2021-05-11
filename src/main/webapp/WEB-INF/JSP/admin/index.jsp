@@ -27,6 +27,13 @@
         });
 
     </script>
+    <script>
+        $(function () {//页面装载执行
+            if (${sessionScope.admin_session.role==0}){
+                $("#addAdmin").hide();
+            }
+        })
+    </script>
 </head>
 <body class="layui-layout-body">
 
@@ -41,17 +48,17 @@
                     </a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+                    <a href="/front" target="_blank" title="前台">
                         <i class="layui-icon layui-icon-website"></i>
                     </a>
                 </li>
+
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;" layadmin-event="refresh" title="刷新">
                         <i class="layui-icon layui-icon-refresh-3"></i>
                     </a>
                 </li>
-                <%--                <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search"
-                                       layadmin-event="serach" lay-action="template/search.html?keywords=">--%>
+
 
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
                     <div class="left_open ">
@@ -91,13 +98,15 @@
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;"><img src="/img/headImg.gif" style="width: 35px;height: 35px"
-                                                class="layui-nav-img">我</a>
+                    <a href="javascript:;"><img
+                            src="${admin_session.imgpath==null?'/img/headImg.gif':admin_session.imgpath}"
+                            style="width: 35px;height: 35px"
+                            class="layui-nav-img">${admin_session.realname==null?'未登录':admin_session.realname}</a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                        <dd style="text-align: center;"><a lay-href="/admin/toPersonPage">基本资料</a></dd>
+                        <dd style="text-align: center;"><a lay-href="/admin/toupdPassword">修改密码</a></dd>
                         <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+                        <dd style="text-align: center;" onclick="logout()"><a href="#">退出登录</a></dd>
                     </dl>
                 </li>
 
@@ -121,21 +130,11 @@
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
                     <li data-name="home" class="layui-nav-item layui-nav-itemed">
-                        <a lay-href="/user/toList" lay-tips="主页" lay-direction="2">
+                        <a lay-href="/toFirstPage" lay-tips="主页" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>主页</cite>
                         </a>
-                     <%--   <dl class="layui-nav-child">
-                            <dd data-name="console" class="layui-this">
-                                <a lay-href="/home/console.html">控制台</a>
-                            </dd>
-                            <dd data-name="console">
-                                <a lay-href="/home/homepage1.html">主页一</a>
-                            </dd>
-                            <dd data-name="console">
-                                <a lay-href="/home/homepage2.html">主页二</a>
-                            </dd>
-                        </dl>--%>
+
                     </li>
 
 
@@ -164,7 +163,7 @@
                             <dd>
                                 <a lay-href="/admin/tolist">管理员信息列表</a>
                             </dd>
-                            <dd>
+                            <dd id="addAdmin">
                                 <a lay-href="/admin/toAdd">添加管理员</a>
                             </dd>
                         </dl>
@@ -198,7 +197,6 @@
                     </li>
 
 
-
                     <li data-name="app" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="文章模块管理" lay-direction="2">
                             <i class="layui-icon layui-icon-app"></i>
@@ -222,7 +220,6 @@
                     </li>
 
 
-
                     <li data-name="app" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="留言板模块管理" lay-direction="2">
                             <i class="layui-icon layui-icon-app"></i>
@@ -235,42 +232,38 @@
                     </li>
 
 
-
                     <li data-name="senior" class="layui-nav-item">
-                        <a lay-href="/echarts" lay-tips="" lay-direction="2">
+                        <a lay-href="/toFirstPage" lay-tips="" lay-direction="2">
                             <i class="layui-icon layui-icon-senior"></i>
                             <cite>Echarts数据报表</cite>
                         </a>
                     </li>
 
-  <%--                  <li data-name="set" class="layui-nav-item">
+                    <li data-name="set" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="设置" lay-direction="2">
                             <i class="layui-icon layui-icon-set"></i>
                             <cite>设置</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd class="layui-nav-itemed">
-                                <a href="javascript:;">系统设置</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a lay-href="set/system/website.html">网站设置</a></dd>
-                                    <dd><a lay-href="set/system/email.html">邮件服务</a></dd>
-                                </dl>
-                            </dd>
+
                             <dd class="layui-nav-itemed">
                                 <a href="javascript:;">我的设置</a>
                                 <dl class="layui-nav-child">
-                                    <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                                    <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                                    <dd><a lay-href="/admin/toPersonPage">基本资料</a></dd>
+                                    <dd><a lay-href="/admin/toupdPassword">修改密码</a></dd>
                                 </dl>
                             </dd>
+
+                            <dd class="layui-nav-itemed">
+<%--                                <a href="javascript:;">系统设置</a>--%>
+                                <%--  <dl class="layui-nav-child">
+                                      <dd><a lay-href="set/system/website.html">网站设置</a></dd>
+                                      <dd><a lay-href="set/system/email.html">邮件服务</a></dd>
+                                  </dl>--%>
+                            </dd>
                         </dl>
-                    </li>--%>
-                  <%--  <li data-name="get" class="layui-nav-item">
-                        <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
-                            <i class="layui-icon layui-icon-auz"></i>
-                            <cite>授权</cite>
-                        </a>
-                    </li>--%>
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -300,14 +293,10 @@
         </div>
 
 
-
-
-
-
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe src="user/toList" frameborder="0" class="layadmin-iframe"></iframe>
+                <iframe src="toFirstPage" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 
@@ -327,6 +316,24 @@
 </script>
 <script>
     $.support.transition = false;
+</script>
+
+<script>
+    function logout () {
+        //*********弹框开始位置**********
+        layui.config({
+            base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table'], function () {
+
+            layer.confirm("您确定退出登录吗？", function () {
+                layer.close()
+                location.href = "/logout"
+            })
+        })
+        //*********弹框结束位置***************
+    }
 </script>
 
 </body>

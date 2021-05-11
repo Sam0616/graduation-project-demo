@@ -85,9 +85,9 @@
 
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        <img id="img1" src="${user_session.imgpath}"
+                        <img id="img1" src="${user_session.imgpath==null?'/img/headImg.gif':user_session.imgpath}"
                              style="width: 35px;height: 35px;border-radius: 30px" class="layui-nav-img">
-                        <span id="span1">${user_session.realname}</span>
+                        <span id="span1">${user_session.realname==null?'未登录':user_session.realname}</span>
                         <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
@@ -118,7 +118,7 @@
 
             <article class="am-g blog-entry-article" v-for="pet in pets">
                 <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                    <img style="border-radius: 0px" :src="pet.imgpath" class="am-u-sm-12">
+                    <img style="width: 380px;height: 250px" :src="pet.imgpath" class="am-u-sm-12">
                 </div>
                 <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
                     <span style="font-weight: bold">昵称:</span>

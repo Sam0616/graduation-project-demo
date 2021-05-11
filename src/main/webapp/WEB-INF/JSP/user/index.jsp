@@ -81,9 +81,9 @@
 
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        <img id="img1" src="${user_session.imgpath}"
+                        <img id="img1" src="${user_session.imgpath==null?'/img/headImg.gif':user_session.imgpath}"
                              style="width: 35px;height: 35px;border-radius: 30px" class="layui-nav-img">
-                        <span id="span1">${user_session.realname}</span>
+                        <span id="span1">${user_session.realname==null?'未登录':user_session.realname}</span>
                         <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
@@ -103,55 +103,62 @@
         <div data-am-widget="slider" class="am-slider am-slider-b1" data-am-slider='{&quot;controlNav&quot;:false}'>
             <ul class="am-slides">
                 <li>
-                    <img src="../../qiantai_user/assets/i/b1.jpg">
-                    <div class="blog-slider-desc am-slider-desc ">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>那时候刚好下着雨，柏油路面湿冷冷的，还闪烁着青、黄、红颜色的灯火。
+                    <img src="${pageContext.request.contextPath}/qiantai_user/assets/i/i4.jpg" style="width: 1434px;height: 735px">
+                    <div class="am-slider-desc blog-slider-desc" style="height: 271px">
+                        <div class="blog-text-center blog-slider-con" style="height: 260px">
+                            <span><a href="" class="blog-color">Daily slogan &nbsp;</a></span>
+                            <h1 class="blog-h-margin"><a href="">全民偕手，给流浪宠物一个家！</a></h1>
+                            <p>"它只是你的一条狗
+
+                                但你却是它的一生"
                             </p>
-                            <span class="blog-bor">2021/04/18</span>
+                            <span>2021/04/05</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img src="${pageContext.request.contextPath}/qiantai_user/assets/i/i7.jpg" style="width: 1434px;height: 735px">
+                    <div class="am-slider-desc blog-slider-desc" style="height: 271px">
+                        <div class="blog-text-center blog-slider-con" style="height: 260px">
+                            <span><a href="" class="blog-color">Daily slogan &nbsp;</a></span>
+                            <h1 class="blog-h-margin"><a href="">动物是人类的好朋友~</a></h1>
+                            <p>"它教会了我们忠诚的含义———
+
+                                永远不应忘记你爱的人"
+                            </p>
+                            <span class="blog-bor">2021/04/05</span>
                             <br><br><br><br><br><br><br>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <img src="../../qiantai_user/assets/i/b2.jpg">
-                    <div class="am-slider-desc blog-slider-desc">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>祝你不用奔赴大海，也能春暖花开。祝你不用颠沛流离，也能遇到陪伴。祝你不用熬过黑夜，已经等到晚安。如果这些都很难，祝你平平安安。
+                    <img src="${pageContext.request.contextPath}/qiantai_user/assets/i/i6.jpg" style="width: 1434px;height: 735px">
+                    <div class="am-slider-desc blog-slider-desc" style="height: 271px">
+                        <div class="blog-text-center blog-slider-con" style="height: 260px">
+                            <span><a href="" class="blog-color">Daily slogan &nbsp;</a></span>
+                            <h1 class="blog-h-margin"><a href="">请爱护人类最亲密的伙伴~</a></h1>
+                            <p>"我们从猫咪身上学到,
+                                幸福是温暖而柔软的东西,
+                                它也许就在身边，不在别处"
                             </p>
                             <span>2021/04/18</span>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <img src="../../qiantai_user/assets/i/b3.jpg" alt="iodfhjkofg">
+                    <img src="${pageContext.request.contextPath}/qiantai_user/assets/i/i5.jpg" style="width: 1434px;height: 735px">
 
-                    <div class="am-slider-desc blog-slider-desc">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>小时候一直不理解，父母为什么可以那么早起床，长大后才明白，叫醒他们的不是闹钟，而是生活和责任，哪有什么岁月静好，只不过有人在替你负重前行。
+                    <div class="am-slider-desc blog-slider-desc" style="height: 271px">
+                        <div class="blog-text-center blog-slider-con" style="height: 260px">
+                            <span><a href="" class="blog-color">Daily slogan &nbsp;</a></span>
+                            <h1 class="blog-h-margin"><a href="">爱护动物，让人类不孤单!</a></h1>
+                            <p>这个世界是多么冷酷，然而，待在猫儿身边，世界就可以变得美好而温柔了
                             </p>
-                            <span>2021/04/18</span>
+                            <span>2021/04/29</span>
                         </div>
                     </div>
                 </li>
-                <li>
-                    <img src="../../qiantai_user/assets/i/b2.jpg">
-                    <div class="am-slider-desc blog-slider-desc">
-                        <div class="blog-text-center blog-slider-con">
-                            <span><a href="" class="blog-color">Article &nbsp;</a></span>
-                            <h1 class="blog-h-margin"><a href="">总在思考一句积极的话</a></h1>
-                            <p>"不要忘记你曾是怎样的小孩"；"不要忘记你曾希望变成怎样的大人"
-                            </p>
-                            <span>2021/04/18</span>
-                        </div>
-                    </div>
-                </li>
+
             </ul>
         </div>
     </div>
@@ -455,12 +462,12 @@
                     index: 'lib/index' //主入口模块
                 }).use(['index', 'table'], function () {
 
-                    layer.confirm("您确定退出登陆吗？", function () {
+                    layer.confirm("您确定退出登录吗？", function () {
                         layer.close()
                         location.href = "/userlogout"
                     })
                 })
-                //*********弹框结束位置***************
+                //*********弹框结束位置**************
             },
 
 

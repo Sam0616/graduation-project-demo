@@ -101,9 +101,9 @@
 
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        <img id="img1" src="${user_session.imgpath}"
+                        <img id="img1" src="${user_session.imgpath==null?'/img/headImg.gif':user_session.imgpath}"
                              style="width: 35px;height: 35px;border-radius: 30px" class="layui-nav-img">
-                        <span id="span1">${user_session.realname}</span>
+                        <span id="span1">${user_session.realname==null?'未登录':user_session.realname}</span>
                         <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">

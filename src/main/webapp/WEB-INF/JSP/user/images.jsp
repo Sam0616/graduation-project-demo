@@ -81,9 +81,9 @@
 
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        <img id="img1" src="${user_session.imgpath}"
+                        <img id="img1" src="${user_session.imgpath==null?'/img/headImg.gif':user_session.imgpath}"
                              style="width: 35px;height: 35px;border-radius: 30px" class="layui-nav-img">
-                        <span id="span1">${user_session.realname}</span>
+                        <span id="span1">${user_session.realname==null?'未登录':user_session.realname}</span>
                         <span class="am-icon-caret-down"></span>
                     </a>
                     <ul class="am-dropdown-content">
@@ -106,66 +106,15 @@
     <div class="am-g am-g-fixed blog-fixed blog-content">
         <figure data-am-widget="figure" class="am am-figure am-figure-default " data-am-figure="{  pureview: 'true' }">
             <div id="container">
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/01.jpg">
-                    <h3>Agfa</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/02.jpg">
-                    <h3>Auto</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/03.jpg">
-                    <h3>Bald eagle</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/04.jpg">
-                    <h3>Black swan</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/05.jpg">
-                    <h3>Book shelf</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/06.jpg">
-                    <h3>Camera</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/07.jpg">
-                    <h3>Camera</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/25.jpg">
-                    <h3>Vintage camera</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/09.jpg">
-                    <h3>Coffee</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/10.jpg">
-                    <h3>Cookies</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/11.jpg">
-                    <h3>Cubes</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/12.jpg">
-                    <h3>DJ</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/13.jpg">
-                    <h3>Doors</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/14.jpg">
-                    <h3>Matchbox</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/15.jpg">
-                    <h3>Freiburg</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/16.jpg">
-                    <h3>Henna</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/17.jpg">
-                    <h3>Home office</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/18.jpg">
-                    <h3>iPad</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/19.jpg">
-                    <h3>Keyboard</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/20.jpg">
-                    <h3>Lynx</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/21.jpg">
-                    <h3>Mac</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/22.jpg">
-                    <h3>Notebook</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/23.jpg">
-                    <h3>Thoughts</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/24.jpg">
-                    <h3>Office</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/25.jpg">
-                    <h3>Children</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/26.jpg">
-                    <h3>Portrait</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/27.jpg">
-                    <h3>Startup</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/28.jpg">
-                    <h3>Sun</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/29.jpg">
-                    <h3>The Eiffel Tower</h3></div>
-                <div><img src="${pageContext.request.contextPath}/qiantai_user/images/30.jpg">
-                    <h3>Water drops</h3></div>
+
+                <c:forEach items="${list}" var="pet">
+
+                    <div><img src="${pet.imgpath}">
+                        <h3>${pet.petname}</h3></div>
+                </c:forEach>
+               <%-- <div><img src="${pageContext.request.contextPath}/qiantai_user/images/01.jpg">
+                    <h3>Agfa</h3></div>--%>
+
 
             </div>
         </figure>

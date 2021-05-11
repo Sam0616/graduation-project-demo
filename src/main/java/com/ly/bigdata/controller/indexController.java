@@ -38,4 +38,17 @@ public class indexController {
         return "login";
     }
 
+    @RequestMapping("/logout")
+    public String adminlogout(HttpSession session){
+        session.invalidate();
+        return "login";
+    }
+
+
+
+    @RequestMapping("/toFirstPage")
+    public String toFirstPage() {
+        return "admin/firstPage";
+    }
+
 }

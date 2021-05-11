@@ -165,9 +165,9 @@
                         <div class="layui-upload-drag" id="test-upload-drag">
                             <i class="layui-icon"></i>
                             <p>点击上传，或将文件拖拽到此处</p>
-                            <div class="layui-hide" id="uploadDemoView">
+                            <div class="" id="uploadDemoView">
                                 <hr>
-                                <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                                <img src="${pet.imgpath}" alt="上传成功后渲染" style="max-width: 196px">
                             </div>
                             <input type="hidden" name="imgpath" id="inputImg">
                         </div>

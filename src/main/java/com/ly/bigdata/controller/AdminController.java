@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+import java.text.AttributedString;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -68,8 +70,14 @@ public class AdminController {
 
 
     @RequestMapping("/tolist")
-    public String tolist() {
-        return "admin/admin/list";
+    public String tolist(HttpSession session) {
+        Admin admin_session = (Admin) session.getAttribute("admin_session");
+        if (admin_session.getRole()==1){
+            //管理员
+            return "admin/admin/list";
+        }else {
+            return "admin/admin/list2";
+        }
     }
 
     @ResponseBody
@@ -125,6 +133,45 @@ public class AdminController {
         admin.setPassword(s);
         adminService.saveOrUpdate(admin);
         return "redirect:/admin/tolist";
+    }
+
+
+    @RequestMapping("/toupdPassword")
+    public String toupdPassword(){
+        return "admin/editPassword";
+    }
+
+    @ResponseBody
+    @RequestMapping("/rePassword")
+    public Object rePassword(String oldpassword, String password,HttpSession session){
+
+        Admin admin_session = (Admin) session.getAttribute("admin_session");
+        String passwordSession = admin_session.getPassword();
+        String s = DigestUtils.md5DigestAsHex(oldpassword.getBytes());
+        if (!s.equals(passwordSession)){//旧密码输入错误
+            HashMap<Object, Object> map = new HashMap<>();
+            map.put("flag",0);
+            return map;
+        }else {
+            //修改密码
+            String s2 = DigestUtils.md5DigestAsHex(password.getBytes());
+            admin_session.setPassword(s2);
+            boolean b = adminService.saveOrUpdate(admin_session);
+            if (b==true){
+                HashMap<Object, Object> map = new HashMap<>();
+                map.put("flag",1);
+                return map;
+            }else {
+                HashMap<Object, Object> map = new HashMap<>();
+                map.put("flag",2);
+                return map;
+            }
+        }
+    }
+
+    @RequestMapping("/toPersonPage")
+    public String toPersonPage(){
+        return "admin/personPage";
     }
 
 }

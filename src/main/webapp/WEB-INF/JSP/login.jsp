@@ -180,7 +180,7 @@
                     <div class="layui-form-item" style="margin-bottom: 20px;">
                         <input type="checkbox" name="remember" lay-skin="primary" title="记住我">
                         <a href="/forget" class="layadmin-user-jump-change layadmin-link"
-                           style="margin-top: 7px"><span style="color: #1E9FFF">忘记密码？</span></a>
+                           style="margin-top: 7px"><span style="color: #1E9FFF">忘记密码</span></a>
                     </div>
                     <div class="layui-col-md12" style="margin-top: -10px;margin-bottom: 10px;margin-left: 1px">
                         <input type="radio" name="identity" value="用户" title="用户"checked>
@@ -198,9 +198,8 @@
                         <a href="javascript:;" title="开发中..."><i class="layui-icon layui-icon-login-qq"></i></a>
                         <a href="javascript:;" title="开发中..."><i class="layui-icon layui-icon-login-wechat"></i></a>
                         <a href="javascript:;" title="开发中..."><i class="layui-icon layui-icon-login-weibo"></i></a>
-
                         <a href="/toregister" class="layadmin-user-jump-change layadmin-link"><span
-                                style="color: #1E9FFF;margin-right: 0px">注册账号</span></a>
+                                style="color: #1E9FFF;margin-right: 0px">没有账号？注册一个</span></a>
                     </div>
                 </div>
             </div>
@@ -274,7 +273,7 @@
                                 location.href = '/front'; //前台主页
                             });
                         } else {
-                            layer.msg("登入失败,用户名或密码错误！", {time: 2000, shift: 6, icon: 5})
+                            layer.msg("登入失败,用户的用户名或密码错误！", {time: 2000, shift: 6, icon: 5})
                         }
                     } else {
                         if (res.data == "true") {
@@ -292,7 +291,7 @@
                                 location.href = '/back'; //后台主页
                             });
                         } else {
-                            layer.msg("登入失败,用户名或密码错误！", {time: 2000, shift: 6, icon: 5})
+                            layer.msg("登入失败,管理员的用户名或密码错误！", {time: 2000, shift: 6, icon: 5})
                         }
                     }
                 }

@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layuiadmin/style/admin.css" media="all">
     <script src="${pageContext.request.contextPath}/layuiadmin/js/jquery-3.3.1.js"></script>
 
+
+
+
 </head>
 <body>
 
@@ -40,7 +43,6 @@
                                    autocomplete="off" class="layui-input">
                             <button type="button" class="layui-btn" style="margin-top: -65px;margin-left: 50%"
                                     data-type="reload" id="queryRole"><i class="layui-icon">&#xe615;</i></button>
-
                         </form>
 
                     </div>
@@ -49,7 +51,7 @@
                     <table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
                     <script type="text/html" id="test-table-toolbar-toolbarDemo">
                         <div class="layui-btn-container">
-                            <button class="layui-btn layui-btn-sm" lay-event="getCheckData"
+                            <button class="layui-btn layui-btn-sm" lay-event="getCheckData" id="mybtn"
                                     style="background-color: #FF5722">
                                 批量删除
                             </button>
@@ -59,8 +61,8 @@
                     </script>
 
                     <script type="text/html" id="test-table-toolbar-barDemo">
-                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                        <a id="a1" class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                        <a id="a2" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
                     </script>
                 </div>
             </div>
@@ -80,6 +82,7 @@
         var tableIns = table.render({
             elem: '#test-table-toolbar'
             , url: "${pageContext.request.contextPath}/admin/list"
+
             , toolbar: '#test-table-toolbar-toolbarDemo'
             , title: '用户数据表'
             , cols: [[
@@ -87,14 +90,14 @@
                 , {field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true}
                 , {field: 'loginname', title: '登录名', width: 120, edit: 'text'}
                 , {field: 'realname', title: '真实姓名', width: 120, edit: 'text'}
-                , {field: 'phone', title: '手机号', width: 120,  sort: true,}
+                , {field: 'phone', title: '手机号', width: 120, sort: true,}
                 , {
-                    field: 'email', title: '邮箱', width: 150,  sort: true, templet: function (res) {
+                    field: 'email', title: '邮箱', width: 150, sort: true, templet: function (res) {
                         return '<em>' + res.email + '</em>'
                     }
                 }
                 , {
-                    field: 'sex', title: '性别', width: 80,  sort: true, templet: function (res) {
+                    field: 'sex', title: '性别', width: 80, sort: true, templet: function (res) {
                         if (res.sex == 1) {
                             return "女";
                         } else {
@@ -106,7 +109,7 @@
                 , {field: 'timestr', title: '生日', width: 150, sort: true}
                 , {field: 'timestr2', title: '录入时间', width: 150, sort: true}
                 , {
-                    field: 'role', title: '身份', width: 110,  sort: true, templet: function (res) {
+                    field: 'role', title: '身份',  sort: true, templet: function (res) {
                         if (res.role == 1) {
                             return "超级管理员";
                         } else {
@@ -114,11 +117,12 @@
                         }
                     }
                 }
-                , {fixed: 'right', title: '操作', toolbar: '#test-table-toolbar-barDemo'}
+                //管理员和超级管理员分角色
+                , {fixed: 'right', title: '操作',hide:${sessionScope.admin_session.role==1?false:true}, toolbar:'#test-table-toolbar-barDemo'}
             ]]
             , page: true
             , limit: 5
-            , limits: [2, 3, 4, 5, 6, 7, 8]
+            , limits: [2, 5, 7, 9, 11, 15, 20]
         });
 
         //头工具栏事件

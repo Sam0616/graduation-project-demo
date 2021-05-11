@@ -224,7 +224,10 @@ public class QianTaiController {
     }
 
     @RequestMapping("/toImages")
-    public String toImages() {
+    public String toImages(Model model) {
+
+        List<Pet> list = petService.list();
+        model.addAttribute("list",list);
         return "user/images";
     }
 
