@@ -121,8 +121,8 @@
                 , {fixed: 'right', title: '操作',hide:${sessionScope.admin_session.role==1?false:true}, toolbar:'#test-table-toolbar-barDemo'}
             ]]
             , page: true
-            , limit: 5
-            , limits: [2, 5, 7, 9, 11, 15, 20]
+            , limit: 8
+            , limits: [5,8, 10, 15,20, 30, 40]
         });
 
         //头工具栏事件

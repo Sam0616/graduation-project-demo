@@ -227,7 +227,7 @@
                             <cite>留言板模块管理</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd><a lay-href="/board/toList">评论列表</a></dd>
+                            <dd><a lay-href="/board/toList">留言板列表</a></dd>
                             <dd><a lay-href="/board/toAdd">待定</a></dd>
                         </dl>
                     </li>

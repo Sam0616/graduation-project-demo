@@ -93,8 +93,8 @@
                 , {fixed: 'right', title: '操作', toolbar: '#test-table-toolbar-barDemo'}
             ]]
             , page: true
-            , limit: 5
-            , limits: [2, 5, 8, 11, 14, 17, 20]
+            , limit: 8
+            , limits: [ 5,8, 11, 14, 17, 20]
         });
 
         //头工具栏事件

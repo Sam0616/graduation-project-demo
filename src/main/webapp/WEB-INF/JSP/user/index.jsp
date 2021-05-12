@@ -152,7 +152,7 @@
                         <div class="blog-text-center blog-slider-con" style="height: 260px">
                             <span><a href="" class="blog-color">Daily slogan &nbsp;</a></span>
                             <h1 class="blog-h-margin"><a href="">爱护动物，让人类不孤单!</a></h1>
-                            <p>这个世界是多么冷酷，然而，待在猫儿身边，世界就可以变得美好而温柔了
+                            <p>"这个世界是多么冷酷，然而，待在猫儿身边，世界就可以变得美好而温柔了"
                             </p>
                             <span>2021/04/29</span>
                         </div>

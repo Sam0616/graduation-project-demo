@@ -12,6 +12,8 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+    <script src="${pageContext.request.contextPath}/layuiadmin/js/jquery-3.3.1.js"></script>
+
 </head>
 <body>
 
@@ -28,7 +30,8 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">请输入:</label>
                         <div class="layui-input-block">
-                            <textarea style="width: 342px;height: 136px;" placeholder="说点什么吧" class="layui-textarea" name="content"></textarea>
+                            <textarea style="width: 342px;height: 136px;" placeholder="说点什么吧" lay-verify="commentPet"
+                                      class="layui-textarea" id="content" name="content"></textarea>
                         </div>
                     </div>
                 </div>
@@ -77,9 +80,16 @@
                 }
             }
             , pass: [/(.+){6,12}$/, '密码必须6到12位']
-            , password: function (value) {
-                if ($("#password").val().trim() != value.trim()) {
-                    return "两次密码输入不一致";
+            , commentPet: function (value) {
+                var reg = /(你妈的)|(你大爷)|(他妈的)|(你麻痹)|(尼玛的)|(艹你)|(丢你老母)|(操你嘴)|(日他姐)|(妈蛋)|(妈逼)|(去死吧)|(麻痹)/g;//这个就是正则式了，将想过滤的词汇放在这里
+                var str = value.trim().match(reg);
+                if (str != null) {
+                    var arrStr = str.join("\",\"");//match可以将符合的词汇挑出来组成一个数组
+                    // alert(arrStr.length)
+                    if (arrStr.length > 0) {
+                        // layer.msg("请不要使用\"" + str + "\"等不文明词汇！", {time: 2000, shift: 6, icon: 5})
+                        return "请不要使用\"" + str + "\"等不文明词汇！";
+                    }
                 }
             }
         });

@@ -87,13 +87,13 @@
                             <select name="adoptEx">
                                 <c:choose>
                                     <c:when test="${user.adoptEx==0}">
-                                        <option value="0" selected>无领养记录</option>
-                                        <option value="1">有领养记录</option>
+                                        <option value="0" selected>无领养经历</option>
+                                        <option value="1">有领养经历</option>
                                     </c:when>
 
                                     <c:otherwise>
-                                        <option value="0">无领养记录</option>
-                                        <option value="1" selected>有领养记录</option>
+                                        <option value="0">无领养经历</option>
+                                        <option value="1" selected>有领养经历</option>
                                     </c:otherwise>
                                 </c:choose>
                             </select>
