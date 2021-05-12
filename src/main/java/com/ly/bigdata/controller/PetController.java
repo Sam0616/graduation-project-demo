@@ -128,7 +128,7 @@ public class PetController {
 
     @ResponseBody
     @RequestMapping("/updImg")
-    public Object updImg(Pet pet, MultipartFile file, HttpServletRequest request) throws IOException {
+    public Object updImg(MultipartFile file, HttpServletRequest request) throws IOException {
 
 /*      String path=System.getProperty("user.dir");
         String filePath=path+"/main/java/resources/static/img";*/
@@ -152,6 +152,7 @@ public class PetController {
         map.put("msg", "");
         return map;
     }
+
 
 
     @RequestMapping("/toAdd")

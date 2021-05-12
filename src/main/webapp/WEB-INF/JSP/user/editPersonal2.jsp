@@ -34,7 +34,7 @@
                             <p>点击上传，或将文件拖拽到此处</p>
                             <div class="" id="uploadDemoView">
                                 <hr>
-                                <img src="${user_session.imgpath}" alt="上传成功后渲染" style="max-width: 196px">
+                                <img src="${user_session.imgpath}"  class="layui-nav-img" style="width: 250px;height: 250px" alt="上传成功后渲染" style="max-width: 196px">
                             </div>
                             <input type="hidden" name="imgpath" id="inputImg">
                         </div>

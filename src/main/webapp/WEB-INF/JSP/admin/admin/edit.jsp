@@ -135,7 +135,6 @@
             elem: '#LAY-component-form-group-date'
         });
 
-
         //常规用法
         laydate.render({
             elem: '#test-laydate-normal-cn',
