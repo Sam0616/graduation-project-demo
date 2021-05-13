@@ -187,7 +187,7 @@
                         <input type="radio" name="identity" value="管理员" title="管理员">
                     </div>
                     <div class="layui-form-item">
-                        <button style="background-color: #1E9FFF" class="layui-btn layui-btn-fluid" lay-submit
+                        <button style="background-color: #1E9FFF" class="layui-btn layui-btn-fluid"  id="search_input" lay-submit
                                 lay-filter="LAY-user-login-submit">登 入
                         </button>
                     </div>
@@ -297,16 +297,26 @@
                 }
             });
         });
-
-        // 粒子线条背景
-        $(document).ready(function () {
-            $('.layui-container').particleground({
-                dotColor: '#7ec7fd',
-                lineColor: '#7ec7fd'
-            });
-        });
-
     });
+
+
+    // 粒子线条背景
+    $(document).ready(function () {
+        $('.layui-container').particleground({
+            dotColor: '#7ec7fd',
+            lineColor: '#7ec7fd'
+        });
+    });
+
+
+    //回车事件
+    document.onkeydown = function (event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) { //回车键的键值为13
+            $("#search_input").click(); //调用登录按钮的登录事件
+        }
+    };
+
 </script>
 </body>
 </html>

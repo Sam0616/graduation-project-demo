@@ -53,7 +53,6 @@ public class loginController {
                 //把当前用户放入session
                 session.setAttribute("user_session", user);
                 //将来在这录入登录浏览器的信息
-
                 Map<String, Object> map = new HashMap<>();
                 map.put("data", "true");
                 map.put("code", 0);

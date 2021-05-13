@@ -44,8 +44,6 @@ public class indexController {
         return "login";
     }
 
-
-
     @RequestMapping("/toFirstPage")
     public String toFirstPage() {
         return "admin/firstPage";
