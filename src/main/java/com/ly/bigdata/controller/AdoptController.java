@@ -2,12 +2,10 @@ package com.ly.bigdata.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ly.bigdata.po.Adopt;
-import com.ly.bigdata.po.Category;
-import com.ly.bigdata.po.Variety;
-import com.ly.bigdata.po.VerifyStatus;
+import com.ly.bigdata.po.*;
 import com.ly.bigdata.service.AdminService;
 import com.ly.bigdata.service.AdoptService;
+import com.ly.bigdata.service.PetService;
 import com.ly.bigdata.service.VerifyStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +36,8 @@ public class AdoptController {
 
     @Autowired
     private AdoptService adoptService;
+    @Autowired
+    private PetService petService;
     @Autowired
     private VerifyStatusService verifyStatusService;
     @RequestMapping("/toList")
@@ -106,6 +106,24 @@ public class AdoptController {
     public void upd(Adopt adopt) throws ParseException {
         //System.err.println(adopt);
         adoptService.saveOrUpdate(adopt);
+        //将审核的操作同步到宠物的审核属性中去
+        Integer Id = adopt.getId();
+        Adopt adopt1 = adoptService.getById(Id);
+        Integer petId = adopt1.getPetId();
+        Pet pet = petService.getById(petId);
+        switch (adopt.getVerifyStatusId()){
+            case 1:{
+            }
+            case 2:{//此处表示领养审核通过，那么将宠物的领养状态置成被领养
+                pet.setStatus(2);
+                boolean b = petService.saveOrUpdate(pet);
+
+            }
+            case 3:{
+
+            }
+        }
+
     }
 
 }
