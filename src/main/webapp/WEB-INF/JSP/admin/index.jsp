@@ -98,11 +98,11 @@
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;">
+                    <a href="javascript:;" >
                         <img onclick="uploadIcon()" title="点击修改头像" src="${admin_session.imgpath==null?'/img/headImg.gif':admin_session.imgpath}"
                             style="width: 35px;height: 35px" id="indexPic"
                             class="layui-nav-img">
-                        ${admin_session.realname==null?'未登录':admin_session.realname}</a>
+                        <span id="adminName">${admin_session.realname==null?'未登录':admin_session.realname}</span></a>
                     <dl class="layui-nav-child">
                         <dd style="text-align: center;"><a lay-href="/admin/toPersonPage">基本资料</a></dd>
                         <dd style="text-align: center;"><a lay-href="/admin/toupdPassword">修改密码</a></dd>

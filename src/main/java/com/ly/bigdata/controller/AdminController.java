@@ -197,9 +197,15 @@ public class AdminController {
         admin.setBirthday(date);
         boolean b = adminService.saveOrUpdate(admin);
         if (b == true) {
-            return true;
+            HashMap<Object, Object> map = new HashMap<>();
+            map.put("flag",true);
+            map.put("adminName",admin.getRealname());
+            return map;
         } else {
-            return false;
+            HashMap<Object, Object> map = new HashMap<>();
+            map.put("flag",false);
+            map.put("adminName",admin.getRealname());
+            return map;
         }
     }
 

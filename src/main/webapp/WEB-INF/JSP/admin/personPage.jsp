@@ -200,12 +200,13 @@
             //$("#myform").submit();
             $.post("${pageContext.request.contextPath}/admin/personInfo", field, (res) => {
 
-                if (res) {
+                if (res.flag) {
                     layer.msg('修改成功,部分数据需要刷新加载', {
                         offset: '15px'
                         , icon: 1
                         , time: 1800
                     }, function () {
+                        parent.$("#adminName").text(res.adminName)
                         location.href = '${pageContext.request.contextPath}/admin/toPersonPage';
                     });
                 } else {

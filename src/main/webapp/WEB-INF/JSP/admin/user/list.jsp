@@ -89,13 +89,13 @@
                 , {field: 'realname', title: '真实姓名', width: 90, edit: 'text'}
                 , {field: 'phone', title: '手机号', width: 120, sort: true,}
                 , {
-                    field: 'email', title: '邮箱', width: 150,  sort: true, templet: function (res) {
+                    field: 'email', title: '邮箱', width: 150, sort: true, templet: function (res) {
                         return '<em>' + res.email + '</em>'
                     }
                 }
                 , {field: 'address', title: '地址', width: 90, edit: 'text'}
                 , {
-                    field: 'adoptEx', title: '领养经历', width: 110,  sort: true, templet: function (res) {
+                    field: 'adoptEx', title: '领养经历', width: 110, sort: true, templet: function (res) {
                         if (res.adoptEx == 0) {
                             return "无领养经历";
                         } else {
@@ -104,7 +104,7 @@
                     }
                 }
                 , {
-                    field: 'sex', title: '性别', width: 80,  sort: true, templet: function (res) {
+                    field: 'sex', title: '性别', width: 80, sort: true, templet: function (res) {
                         if (res.sex == 1) {
                             return "女";
                         } else {
@@ -113,14 +113,22 @@
                     }
                 }
 
-                , {field: 'age', title: '年龄', width: 90, sort: true, sort: true}
+                , {
+                    field: 'age', title: '年龄', width: 90, sort: true, sort: true, templet: function (res) {
+                        if (res.age == null) {
+                            return "未完善";
+                        } else {
+                            return res.age;
+                        }
+                    }
+                }
                 , {field: 'timestr', title: '录入时间', width: 150, sort: true}
 
                 , {fixed: 'right', title: '操作', toolbar: '#test-table-toolbar-barDemo'}
             ]]
             , page: true
             , limit: 8
-            , limits: [ 5, 8,10, 15,20,25]
+            , limits: [5, 8, 10, 15, 20, 25]
         });
 
         //头工具栏事件
