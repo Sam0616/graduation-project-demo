@@ -297,7 +297,7 @@
         data() {
             return {
                 pets: [],
-                limit: 5,
+
                 page: '',
                 nextPage: '',
                 prePage: '',
@@ -308,9 +308,6 @@
         mounted() {
             var that = this;
             axios.get("/user/qiantaiIndex2").then(function (result) {
-                // console.log(result)
-
-                //console.log(result.data.list)
 
                 if (result.data.list == '') {
                     // alert('您还没有领养记录，快去领养吧~')

@@ -42,7 +42,7 @@ public class QianTaiController {
     public Object getList(//前台显示策略：已经被领养的不再显示
                           @RequestParam(value = "page", defaultValue = "1")
                                   Integer pageNum,
-                          @RequestParam(value = "limit", defaultValue = "5")
+                          @RequestParam(value = "limit", defaultValue = "3")
                                   Integer pageSize,
                           @RequestParam(value = "content", required = false)
                                   String content) {
@@ -227,7 +227,7 @@ public class QianTaiController {
     public String toImages(Model model) {
 
         List<Pet> list = petService.list();
-        model.addAttribute("list",list);
+        model.addAttribute("list", list);
         return "user/images";
     }
 
@@ -277,20 +277,22 @@ public class QianTaiController {
             @RequestParam(value = "page", defaultValue = "1")
                     Integer pageNum,
             HttpSession session,
-            @RequestParam(value = "limit", defaultValue = "5")
+            @RequestParam(value = "limit", defaultValue = "1000")
                     Integer pageSize,
             @RequestParam(value = "content", required = false)
                     String content) {
 
         Page<Pet> page = new Page<>(pageNum, pageSize);
 
+        //todo 此处应该优化为把userID传过去
         petService.getPetspersonal(page, content);
+
 
         //检索到当前登录用户的领养记录
         User user = (User) session.getAttribute("user_session");
         Integer userId = user.getId();
         List<Pet> list = page.getRecords();
-        ArrayList<Object> arrayList = new ArrayList<>();
+        ArrayList<Pet> arrayList = new ArrayList<>();
         list.forEach(item -> {
             Integer id = item.getUserId();
             if (id.equals(userId)) {//找到了登录用户的记录
@@ -298,8 +300,9 @@ public class QianTaiController {
             }
         });
 
+        page.setRecords(arrayList);
         Map<String, Object> map = new HashMap<>();
-        map.put("list", arrayList);
+        map.put("list", page.getRecords());
         map.put("count", page.getTotal());
         map.put("limit", page.getSize());
         map.put("page", page.getCurrent());
@@ -363,9 +366,9 @@ public class QianTaiController {
         Integer userId = user2.getId();
         User user = userService.getById(userId);
         Date birthday = user.getBirthday();
-        if (birthday==null){
+        if (birthday == null) {
             model.addAttribute("user", user);
-        }else {
+        } else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String s = sdf.format(birthday);
             model.addAttribute("birthday", s);
@@ -382,9 +385,9 @@ public class QianTaiController {
         Integer userId = user2.getId();
         User user = userService.getById(userId);
         Date birthday = user.getBirthday();
-        if (birthday==null){
+        if (birthday == null) {
             model.addAttribute("user", user);
-        }else {
+        } else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String s = sdf.format(birthday);
             model.addAttribute("birthday", s);
@@ -419,7 +422,7 @@ public class QianTaiController {
 
     @ResponseBody
     @RequestMapping("/updPersonal")
-    public Object updPersonal(User user,HttpSession session,String birthdays) throws ParseException {
+    public Object updPersonal(User user, HttpSession session, String birthdays) throws ParseException {
         String imgpath = user.getImgpath();
 
 
@@ -436,7 +439,7 @@ public class QianTaiController {
         user.setBirthday(date);
         boolean b = userService.saveOrUpdate(user);
         if (b == true) {
-            session.setAttribute("user_session",user);
+            session.setAttribute("user_session", user);
             return "信息更新成功";
         } else {
             return "信息更新失败";
