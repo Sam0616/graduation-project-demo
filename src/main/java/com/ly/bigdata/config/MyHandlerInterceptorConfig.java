@@ -15,7 +15,7 @@ public class MyHandlerInterceptorConfig extends WebMvcConfigurerAdapter {
          */
         //第一个拦截器
         registry.addInterceptor(new MyHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/tologin").excludePathPatterns
-                ("/toregister").excludePathPatterns("/forget").excludePathPatterns("/findOutPwd").excludePathPatterns("/getCode").excludePathPatterns("/isRegistered2").excludePathPatterns("/").excludePathPatterns("/login").excludePathPatterns//查看控制台访问路径里面没有static，因为我的静态文件根本没有static这一层，所以添加static根本没用
+                ("/toregister").excludePathPatterns("/ResetPwd").excludePathPatterns("/register").excludePathPatterns("/isRegistered").excludePathPatterns("/forget").excludePathPatterns("/findOutPwd").excludePathPatterns("/getCode").excludePathPatterns("/isRegistered2").excludePathPatterns("/").excludePathPatterns("/login").excludePathPatterns//查看控制台访问路径里面没有static，因为我的静态文件根本没有static这一层，所以添加static根本没用
                 ("/static/**").excludePathPatterns("/agreement_files/**").excludePathPatterns//排除静态资源
                 ("/bootstrap-3.3.7-dist/**").excludePathPatterns//排除静态资源
                 ("/error/**").excludePathPatterns//排除静态资源

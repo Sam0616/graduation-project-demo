@@ -104,9 +104,14 @@
                             class="layui-nav-img">
                         <span id="adminName">${admin_session.realname==null?'未登录':admin_session.realname}</span></a>
                     <dl class="layui-nav-child">
+
                         <dd style="text-align: center;"><a lay-href="/admin/toPersonPage">基本资料</a></dd>
                         <dd style="text-align: center;"><a lay-href="/admin/toupdPassword">修改密码</a></dd>
+
                         <hr>
+
+
+                        <dd style="text-align: center;" ><a href="/front">前台系统</a></dd>
                         <dd style="text-align: center;" onclick="logout()"><a href="#">退出登录</a></dd>
                     </dl>
                 </li>

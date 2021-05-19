@@ -274,7 +274,7 @@
                                     <div class="layui-footer" style="left: 0; text-align: center">
                                         <button type="submit" class="layui-btn" lay-submit=""
                                                 lay-filter="component-form-demo1">
-                                            立即申请
+                                            立即发布
                                         </button>
                                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                                     </div>
