@@ -83,8 +83,8 @@
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 200, fixed: 'left', unresize: true, sort: true}
-                , {field: 'uname', title: '评论人', width: 200, edit: 'text'}
-                , {field: 'pname', title: '评论动物', width: 200, edit: 'text'}
+                , {field: 'uname', title: '评论人', width: 200, edit: 'text',sort: true}
+                , {field: 'pname', title: '评论动物', width: 200, edit: 'text',sort: true}
                 , {field: 'content', title: '评论内容', width: 220, sort: true,}
                 , {field: 'createtime', title: '评论时间', width: 200, sort: true,}
 

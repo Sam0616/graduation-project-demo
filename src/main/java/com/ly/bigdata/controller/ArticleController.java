@@ -2,7 +2,9 @@ package com.ly.bigdata.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ly.bigdata.po.Admin;
 import com.ly.bigdata.po.Article;
+import com.ly.bigdata.po.User;
 import com.ly.bigdata.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -84,13 +87,15 @@ public class ArticleController {
 
 
     @RequestMapping("/add")
-    public String add(Article article) {
+    public String add(Article article, HttpSession session) {
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String cteatetime = format.format(now);
         article.setCreatetime(cteatetime);
-        //这里先写死，写完登录后再从session中拿
-        article.setAdminId(12);
+        Admin admin = (Admin) session.getAttribute("admin_session");
+        Integer adminId = admin.getId();
+
+        article.setAdminId(adminId);
         articleService.saveOrUpdate(article);
         return "redirect:/article/toList";
     }

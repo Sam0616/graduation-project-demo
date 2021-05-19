@@ -133,7 +133,7 @@
                     <hr>
                     <span style="font-weight: bold">申请理由:</span>
                     <span><a href="javascript:void (0)"
-                             :title="pet.description">{{pet.amsg}}</a></span>
+                             :title="pet.amsg">{{pet.amsg}}</a></span>
                     <hr>
                     <span style="font-weight: bold">申请时间:</span>
                     <span><a href="javascript:void (0)"
