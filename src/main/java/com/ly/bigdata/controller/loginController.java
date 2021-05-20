@@ -1,12 +1,19 @@
 package com.ly.bigdata.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ly.bigdata.po.Admin;
 import com.ly.bigdata.po.User;
+import com.ly.bigdata.po.UservisitInf;
 import com.ly.bigdata.service.AdminService;
 import com.ly.bigdata.service.UserService;
 import com.ly.bigdata.utils.NumberUtil;
 import com.ly.bigdata.utils.SendMessageUtil;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.OperatingSystem;
+import eu.bitwalker.useragentutils.UserAgent;
+import eu.bitwalker.useragentutils.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
@@ -17,9 +24,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class loginController {
@@ -372,4 +383,103 @@ public class loginController {
 
 
     }
+
+    public void getClientInfo(HttpServletRequest request, String loginname, HttpServletResponse response) throws UnsupportedEncodingException {
+        String agent = request.getHeader("user-Agent");
+        System.err.println(agent);
+
+        //User Agent中文名为用户代理，简称 UA，它是一个特殊字符串头，使得服务器
+        //能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、
+        //浏览器渲染引擎、浏览器语言、浏览器插件等
+        UserAgent userAgent = UserAgent.parseUserAgentString(agent);
+        //获取浏览器
+        Browser browser = userAgent.getBrowser();
+        System.err.println(browser.getName());
+        //获取浏览器版本
+        Version bv = userAgent.getBrowserVersion();
+        //System.out.println(bv.getVersion());
+        // 获取操作系统
+        OperatingSystem os = userAgent.getOperatingSystem();
+        //System.out.println(os.getName());
+
+        String iphone = "";
+        if (agent.contains("Windows NT")) {
+            //pc型号获取方法实现
+            String pc_regex = " \\((.*); ";
+            Pattern pattern = Pattern.compile(pc_regex);
+            Matcher matcher = pattern.matcher(agent);
+            while (matcher.find()) {
+                iphone = matcher.group(1);
+            }
+            agent = "PC端";
+        } else {
+            String type = "";
+            if (agent.contains("iPhone") || agent.contains("iPod") || agent.contains("iPad")) {
+                type = "ios";
+            } else if (agent.contains("Android") || agent.contains("Linux")) {
+                type = "apk";
+            } else if (agent.indexOf("micromessenger") > 0) {
+                type = "wx";
+            }
+            String iphone_regex = "\\((.*)\\) Apple";
+            Pattern pattern = Pattern.compile(iphone_regex);
+            Matcher matcher = pattern.matcher(agent);
+
+            while (matcher.find()) {
+                iphone = matcher.group(1);
+            }
+            agent = "移动端" + type;
+        }
+
+        System.out.println(iphone);
+        System.out.println(agent);
+
+        System.out.println("---------------------获取ip--------------------------");
+        String ipAddress = null;
+        if (request.getHeader("x-forwarded-for") == null) {
+            ipAddress = request.getRemoteAddr();
+        } else {
+            if (request.getHeader("x-forwarded-for").length() > 15) {
+                String[] aStr = request.getHeader("x-forwarded-for").split(",");
+                ipAddress = aStr[0];
+            } else {
+                ipAddress = request.getHeader("x-forwarded-for");
+            }
+        }
+        System.out.println(ipAddress);
+
+        // 封装UservisitInf
+        UservisitInf uservisitInf = new UservisitInf();
+        uservisitInf.setLoginname(loginname);
+        uservisitInf.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        uservisitInf.setVisitIp(ipAddress);
+        uservisitInf.setUserAddress("");
+        uservisitInf.setUserFrom(agent);
+        uservisitInf.setBrowser(browser.getName());
+        uservisitInf.setOpsystem(os.getName());
+        uservisitInf.setVersion(bv.getVersion());
+        uservisitInf.setIphone(iphone);
+
+        // 写入数据库
+//        userService.save(uservisitInf);
+
+        String s = null;
+        try {
+            s = new ObjectMapper().writeValueAsString(uservisitInf);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        // 写入redis
+//        redisTemplate.opsForList().leftPush("users", s);
+        //为实现登出时间放入用户访问对象
+        request.getSession().setAttribute("USER_VISIT", uservisitInf);
+
+ /*       //编码
+        String encode = URLEncoder.encode(s, "utf-8");
+        //解码
+        //URLDecoder.decode(cookies[i].getName(),"utf-8")
+        Cookie cookie = new Cookie("USERV_ISIT_cookie", encode);
+        response.addCookie(cookie);// addCookie后，如果已经存在相同名字的cookie，则最新的覆盖旧的cookie*/
+    }
+
 }

@@ -150,11 +150,15 @@
                             <cite>用户信息管理</cite>
                         </a>
                         <dl class="layui-nav-child">
+
                             <dd data-name="grid">
                                 <a lay-href="/user/toList">用户信息列表</a>
                             </dd>
                             <dd data-name="button">
                                 <a lay-href="/user/toAdd">添加用户</a>
+                            </dd>
+                            <dd data-name="record">
+                                <a lay-href="/user/toList">用户访问记录</a>
                             </dd>
                         </dl>
                     </li>

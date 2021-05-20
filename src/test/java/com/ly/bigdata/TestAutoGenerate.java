@@ -79,7 +79,7 @@ public class TestAutoGenerate {
         // Step5：策略配置（数据库表配置）
         StrategyConfig strategy = new StrategyConfig();
         // 指定表名（可以同时操作多个表，使用 , 隔开）（需要修改）
-        String[] strings = {"sensitive_words"};
+        String[] strings = {"sys_uservisit"};
 
 
         strategy.setInclude(strings);

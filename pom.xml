@@ -117,6 +117,8 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>2.4.3</version>
         </dependency>
+
+
         <!-- 手机验证码发送依赖-->
         <dependency>
             <groupId>com.cloopen</groupId>
