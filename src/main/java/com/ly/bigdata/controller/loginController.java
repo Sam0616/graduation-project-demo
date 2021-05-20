@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ly.bigdata.po.Admin;
+import com.ly.bigdata.po.SysUservisit;
 import com.ly.bigdata.po.User;
 import com.ly.bigdata.po.UservisitInf;
 import com.ly.bigdata.service.AdminService;
+import com.ly.bigdata.service.SysUservisitService;
 import com.ly.bigdata.service.UserService;
 import com.ly.bigdata.utils.NumberUtil;
 import com.ly.bigdata.utils.SendMessageUtil;
@@ -38,6 +40,8 @@ public class loginController {
     private UserService userService;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private SysUservisitService sysUservisitService;
 
     @ResponseBody
     @RequestMapping("/login")
@@ -45,11 +49,11 @@ public class loginController {
                         HttpSession session, HttpServletRequest request,
                         HttpServletResponse response) throws Exception {
 
-        if (remember!=null){//勾选了记住密码
+        if (remember != null) {//勾选了记住密码
             Cookie pwd = new Cookie("pwd", password);
             Cookie name = new Cookie("name", loginname);
-            pwd.setMaxAge(60*60*24*7);//记住密码一周
-            name.setMaxAge(60*60*24*7);//记住密码一周
+            pwd.setMaxAge(60 * 60 * 24 * 7);//记住密码一周
+            name.setMaxAge(60 * 60 * 24 * 7);//记住密码一周
             response.addCookie(pwd);
             response.addCookie(name);
         }
@@ -61,6 +65,9 @@ public class loginController {
             wrapper.eq("loginname", loginname).eq("password", pwd);
             User user = userService.getOne(wrapper);
             if (user != null) {
+
+                //收集浏览器登录信息
+                getClientInfo(request,loginname);
                 //把当前用户放入session
                 session.setAttribute("user_session", user);
                 //将来在这录入登录浏览器的信息
@@ -285,10 +292,10 @@ public class loginController {
 
     @ResponseBody
     @RequestMapping("/isRegistered2")
-    public Object getCode3(String phone,String identity) {
+    public Object getCode3(String phone, String identity) {
 
-        System.err.println("身份============"+identity);
-        if("用户".equals(identity)){
+        System.err.println("身份============" + identity);
+        if ("用户".equals(identity)) {
             System.err.println(phone + "判断该用户手机号是否注册");
             QueryWrapper<User> wrapper = new QueryWrapper<>();
             wrapper.eq("phone", phone);
@@ -306,18 +313,18 @@ public class loginController {
                 map.put("msg", "用户！");
                 return map;
             }
-        }else {
+        } else {
             System.err.println(phone + "判断该管理员手机号是否注册");
             QueryWrapper<Admin> wrapper = new QueryWrapper<>();
             wrapper.eq("phone", phone);
             Admin admin = adminService.getOne(wrapper);
-            if (admin==null){
+            if (admin == null) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("data", "true");
                 map.put("code", 0);
                 map.put("msg", "管理员！");
                 return map;
-            }else {
+            } else {
                 Map<String, Object> map = new HashMap<>();
                 map.put("data", "false");
                 map.put("code", 0);
@@ -384,6 +391,11 @@ public class loginController {
 
     }
 
+
+
+
+
+/*
     public void getClientInfo(HttpServletRequest request, String loginname, HttpServletResponse response) throws UnsupportedEncodingException {
         String agent = request.getHeader("user-Agent");
         System.err.println(agent);
@@ -474,12 +486,107 @@ public class loginController {
         //为实现登出时间放入用户访问对象
         request.getSession().setAttribute("USER_VISIT", uservisitInf);
 
- /*       //编码
-        String encode = URLEncoder.encode(s, "utf-8");
-        //解码
-        //URLDecoder.decode(cookies[i].getName(),"utf-8")
-        Cookie cookie = new Cookie("USERV_ISIT_cookie", encode);
-        response.addCookie(cookie);// addCookie后，如果已经存在相同名字的cookie，则最新的覆盖旧的cookie*/
+ */
+
+
+
+
+
+    public  void getClientInfo(HttpServletRequest request, String loginname){
+        String agent =request.getHeader("User-Agent");
+        System.out.println(agent);
+
+        //User Agent中文名为用户代理，简称 UA，它是一个特殊字符串头，使得服务器
+        //能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、
+        //浏览器渲染引擎、浏览器语言、浏览器插件等
+        UserAgent userAgent = UserAgent.parseUserAgentString(agent);
+
+        // 获取浏览器
+        Browser browser = userAgent.getBrowser();
+        //System.out.println(browser.getName());
+        // 获取浏览器版本
+        Version bv = userAgent.getBrowserVersion();
+        //System.out.println(bv.getVersion());
+        // 获取操作系统
+        OperatingSystem os = userAgent.getOperatingSystem();
+        //System.out.println(os.getName());
+
+        String iphone = "";
+        if (agent.contains("Windows NT")) {
+            //pc型号获取方法实现
+            String pc_regex = " \\((.*); ";
+            Pattern pattern = Pattern.compile(pc_regex);
+            Matcher matcher = pattern.matcher(agent);
+            while (matcher.find()) {
+                iphone = matcher.group(1);
+            }
+            agent = "PC端";
+        } else {
+            String type = "";
+            if (agent.contains("iPhone") || agent.contains("iPod") || agent.contains("iPad")) {
+                type = "ios";
+            } else if (agent.contains("Android") || agent.contains("Linux")) {
+                type = "apk";
+            } else if (agent.indexOf("micromessenger") > 0) {
+                type = "wx";
+            }
+            String iphone_regex = "\\((.*)\\) Apple";
+            Pattern pattern = Pattern.compile(iphone_regex);
+            Matcher matcher = pattern.matcher(agent);
+
+            while (matcher.find()) {
+                iphone = matcher.group(1);
+            }
+            agent = "移动端" + type;
+        }
+
+        System.out.println(iphone);
+        System.out.println(agent);
+
+        System.out.println("---------------------获取ip--------------------------");
+        String ipAddress = null;
+        if (request.getHeader("x-forwarded-for") == null) {
+            ipAddress = request.getRemoteAddr();
+        } else {
+            if (request.getHeader("x-forwarded-for").length() > 15) {
+                String[] aStr = request.getHeader("x-forwarded-for").split(",");
+                ipAddress = aStr[0];
+            } else {
+                ipAddress = request.getHeader("x-forwarded-for");
+            }
+        }
+        System.out.println(ipAddress);
+
+        // 封装UservisitInf
+        SysUservisit uservisitInf =new SysUservisit();
+        uservisitInf.setLoginname(loginname);
+        uservisitInf.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        uservisitInf.setExitTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        uservisitInf.setVisitIp(ipAddress);
+        uservisitInf.setUserAddress("");
+        uservisitInf.setUserFrom(agent);
+        uservisitInf.setBrowser(browser.getName());
+        uservisitInf.setSystem(os.getName());
+        uservisitInf.setVersion(bv.getVersion());
+        uservisitInf.setIphone(iphone);
+
+        // 写入数据库
+        sysUservisitService.save(uservisitInf);
+        String s = null;
+        try {
+            s = new ObjectMapper().writeValueAsString(uservisitInf);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        // 写入redis
+        // redisTemplate.opsForList().leftPush("users",s);
+        // 写入到session
+
+        request.getSession().setAttribute("USERV_ISIT",uservisitInf);
+
     }
+
+
 
 }

@@ -157,8 +157,8 @@
                             <dd data-name="button">
                                 <a lay-href="/user/toAdd">添加用户</a>
                             </dd>
-                            <dd data-name="record">
-                                <a lay-href="/user/toList">用户访问记录</a>
+                            <dd data-name="button">
+                                <a lay-href="/uservisit/listpage">用户访问记录</a>
                             </dd>
                         </dl>
                     </li>
