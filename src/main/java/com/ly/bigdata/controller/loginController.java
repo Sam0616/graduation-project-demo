@@ -17,6 +17,7 @@ import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,8 @@ public class loginController {
     private AdminService adminService;
     @Autowired
     private SysUservisitService sysUservisitService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @ResponseBody
     @RequestMapping("/login")
@@ -66,11 +69,10 @@ public class loginController {
             User user = userService.getOne(wrapper);
             if (user != null) {
 
-                //收集浏览器登录信息
+                //todo 收集浏览器用户登录信息,已实现
                 getClientInfo(request,loginname);
                 //把当前用户放入session
                 session.setAttribute("user_session", user);
-                //将来在这录入登录浏览器的信息
                 Map<String, Object> map = new HashMap<>();
                 map.put("data", "true");
                 map.put("code", 0);
@@ -94,7 +96,6 @@ public class loginController {
             if (admin != null) {
                 //把当前管理员放入session
                 session.setAttribute("admin_session", admin);
-                //将来在这录入登录浏览器的信息
 
                 Map<String, Object> map = new HashMap<>();
                 map.put("data", "true");
@@ -580,11 +581,10 @@ public class loginController {
         }
 
         // 写入redis
-        // redisTemplate.opsForList().leftPush("users",s);
+         redisTemplate.opsForList().leftPush("users",s);
+
         // 写入到session
-
         request.getSession().setAttribute("USERV_ISIT",uservisitInf);
-
     }
 
 

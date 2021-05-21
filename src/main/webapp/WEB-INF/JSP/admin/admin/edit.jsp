@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item">
+   <%--             <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">管理员类型</label>
                         <div class="layui-input-inline">
@@ -78,7 +78,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">性别</label>
