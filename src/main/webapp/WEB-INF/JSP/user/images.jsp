@@ -108,13 +108,12 @@
             <div id="container">
 
                 <c:forEach items="${list}" var="pet">
-
                     <div><img src="${pet.imgpath}">
-                        <h3>${pet.petname}</h3></div>
+                        <h3 title="点击姓名查看详情" onclick="showPet(${pet.id})">${pet.petname}</h3>
+                    </div>
                 </c:forEach>
                <%-- <div><img src="${pageContext.request.contextPath}/qiantai_user/images/01.jpg">
                     <h3>Agfa</h3></div>--%>
-
 
             </div>
         </figure>
@@ -269,6 +268,31 @@
                 content: "/user/toEditPassword"
             });
         })
+        //*********弹框结束位置***************
+    }
+
+    function showPet(id) {
+        //*********弹框开始位置**********
+        layui.config({
+            base: '${pageContext.request.contextPath}/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table'], function () {
+            layer.open({
+                type: 2,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                skin: 'yourClass',
+                area: ['620px', '700px'],
+
+                end: function () {
+                    /* tableIns.reload()*/
+                },
+                content: "/user/toDisplaypet?petid=" + id
+            });
+        })
+
         //*********弹框结束位置***************
     }
 
