@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ly.bigdata</groupId>
-    <artifactId>personnel-management</artifactId>
+    <artifactId>animal_adoption</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>personnel-management</name>
+    <name>animal_adoption</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
